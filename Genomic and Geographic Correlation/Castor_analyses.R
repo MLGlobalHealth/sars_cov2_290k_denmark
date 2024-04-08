@@ -1,8 +1,5 @@
 # Castor analysis ------
 
-# Getting DST network data 
-setwd("K:/SSI_sekvensering_corona/mark/Genomic_characterization/Correlation_genetic_geographic_distance/")
-
 # Importing packages ----------
 library(ape, phytools, dplyr, tidyverse, data.table, dbplyr, lubridate,
         rlang, foreach, doParallel,
