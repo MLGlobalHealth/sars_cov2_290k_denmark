@@ -1,16 +1,18 @@
 # Data generation for correlation between genetic and geographic distance
 
 # Importing packages ----------
-library(ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
-        rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI, 
-        parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplotify, 
-        phangorn,heatmaply,RColorBrewer,graphics, purrr, future.apply, geosphere, patchwork, coefplot,
-        adephylo, biglm, pheatmap, osrm, oce, rgdal, sp, osmextract)
+library(
+  ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
+  rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI,
+  parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplotify,
+  phangorn, heatmaply, RColorBrewer, graphics, purrr, future.apply, geosphere, patchwork, coefplot,
+  adephylo, biglm, pheatmap, osrm, oce, rgdal, sp, osmextract
+)
 
 
 # Data Preparation (Tree and Metadata) ------------------------------
 sequenced_individuals <- readRDS(file = "")
-all_individual <- read.csv(file="")
+all_individual <- read.csv(file = "")
 distance_tree <- read.tree("")
 
 # Change tip labels to PERSON_ID values
@@ -20,7 +22,7 @@ distance_tree$tip.label <- matched_person_ids
 
 # Cophenetic distance matrix for 20,000 random samples ----------
 # Take 20,000 random rows from sequenced_individuals
-set.seed(123) 
+set.seed(123)
 # Initialize variables
 sampled_data <- data.frame()
 sampled_person_ids <- character(0)
@@ -28,7 +30,7 @@ sampled_person_ids <- character(0)
 while (nrow(sampled_data) < 20000) {
   # Sample a new row
   new_row <- sequenced_individuals[sample(nrow(sequenced_individuals), 1), ]
-  
+
   # Check if the PERSON_ID is already in the sampled data
   if (!(new_row$PERSON_ID %in% sampled_person_ids)) {
     # If not, add the row to the sampled data and PERSON_ID to the vector
@@ -67,16 +69,16 @@ coordinates <- matrix(unlist(coordinates), ncol = 2, byrow = TRUE)
 easting <- as.numeric(coordinates[, 1])
 northing <- as.numeric(coordinates[, 2])
 # Convert UTM to lonlat using oce's utm2lonlat function
-lonlat <- utm2lonlat(easting = easting, northing = northing, zone=32, hemisphere="N")
+lonlat <- utm2lonlat(easting = easting, northing = northing, zone = 32, hemisphere = "N")
 # Add the lonlat values as new columns
 sampled_data$longitude <- lonlat$longitude
 sampled_data$latitude <- lonlat$latitude
-#month
-sampled_data$date <- as.Date(sampled_data$date)  # Ensure 'date' is in Date format
+# month
+sampled_data$date <- as.Date(sampled_data$date) # Ensure 'date' is in Date format
 sampled_data$month <- month(sampled_data$date)
 head(sampled_data)
-#saveRDS(sampled_data, file="sampled_subset_data.rds")
-#write.csv(sampled_data, file="sampled_subset_data.csv")
+# saveRDS(sampled_data, file="sampled_subset_data.rds")
+# write.csv(sampled_data, file="sampled_subset_data.csv")
 
 
 # Converting UTM/ETRS to longitude and latitude for the big metadata set  -------
@@ -88,11 +90,11 @@ coordinates <- matrix(unlist(coordinates), ncol = 2, byrow = TRUE)
 easting <- as.numeric(coordinates[, 1])
 northing <- as.numeric(coordinates[, 2])
 # Convert UTM to lonlat using oce's utm2lonlat function
-lonlat <- utm2lonlat(easting = easting, northing = northing, zone=32, hemisphere="N")
+lonlat <- utm2lonlat(easting = easting, northing = northing, zone = 32, hemisphere = "N")
 # Add the lonlat values as new columns
 sequenced_individuals$longitude <- lonlat$longitude
 sequenced_individuals$latitude <- lonlat$latitude
-saveRDS(sequenced_individuals, file="sequenced_individual_detailed_metadata.rds")
+saveRDS(sequenced_individuals, file = "sequenced_individual_detailed_metadata.rds")
 
 
 
@@ -114,7 +116,7 @@ coordinates <- sampled_data[, c("longitude", "latitude")]
 geographic_distance_matrix_parallel <- foreach(i = 1:nrow(sampled_data), .combine = rbind) %dopar% {
   # Load the geosphere library inside the parallel block (only load once)
   library(geosphere)
-  
+
   sapply(1:nrow(sampled_data), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
@@ -140,11 +142,6 @@ time_distance_matrix_parallel <- foreach(i = 1:nrow(sampled_data), .combine = rb
   })
 }
 stopCluster(cl)
-#time_distance_matrix_df <- as.data.frame(time_distance_matrix_parallel)
+# time_distance_matrix_df <- as.data.frame(time_distance_matrix_parallel)
 saveRDS(time_distance_matrix_parallel, file = "time_distance_matrix.rds")
-#write.csv(time_distance_matrix_parallel, file = "time_distance_matrix.csv")
-
-
-
-
-
+# write.csv(time_distance_matrix_parallel, file = "time_distance_matrix.csv")

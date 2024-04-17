@@ -15,3 +15,5 @@ To reproduce everything, install the .yml with conda/mamba:
 ```bash
 conda env create -f environment.yml
 ```
+
+To reproduce certain figures individually, consult the README files in each corresponding folder.

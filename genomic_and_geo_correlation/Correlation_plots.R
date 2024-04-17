@@ -1,11 +1,13 @@
 # Geographic and Genomic Distance Correlation Plots
 
 # Importing packages ----------
-library(ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, 
-        lubridate, rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, 
-        DSTdb, DBI, parallel, ggsignif, Rcpp, geosphere, biglm, graphics, 
-        pheatmap, viridis, patchwork, coefplot, ggpubr, gridExtra, hdf5r, 
-        JuliaCall)
+library(
+  ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr,
+  lubridate, rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica,
+  DSTdb, DBI, parallel, ggsignif, Rcpp, geosphere, biglm, graphics,
+  pheatmap, viridis, patchwork, coefplot, ggpubr, gridExtra, hdf5r,
+  JuliaCall
+)
 
 
 # Functions ------
@@ -25,9 +27,9 @@ read.jld2 <- function(fname, key) {
   file.h5 <- hdf5r::H5File$new(fname, mode = "r+")
   ds <- file.h5[[key]]
   dist <- array(ds[, ], dim = ds$dims)
-  
+
   file.h5$close_all()
-  
+
   return(dist)
 }
 
@@ -35,7 +37,7 @@ read.jld2 <- function(fname, key) {
 
 
 
-#Load data --------
+# Load data --------
 
 # Loading distance and time matrices from Open Street Maps for all datasets ----------------------
 OSM_distances_full <- read.jld2()
@@ -66,7 +68,7 @@ OSM_distances_aarhus_vector <- as.vector(lower_triangular(OSM_distances_aarhus))
 
 
 # All of Denmark, 20,000 samples ---------
-#Loading basic data
+# Loading basic data
 time_distance_matrix_parallel <- readRDS(file = "")
 geographic_distance_matrix_parallel <- readRDS(file = "")
 sequenced_individuals <- readRDS(file = "")
@@ -74,7 +76,7 @@ cophenetic_distances <- readRDS(file = "")
 final_tree <- read.tree("")
 final_distance_tree <- read.tree("")
 
-cophenetic_distances_vector <- as.vector(lower_triangular(cophenetic_distances))* 29891
+cophenetic_distances_vector <- as.vector(lower_triangular(cophenetic_distances)) * 29891
 time_distance_matrix_vector <- abs(as.vector(lower_triangular(time_distance_matrix_parallel))) / 7
 geographic_distance_matrix_parallel_vector <- as.vector(lower_triangular(geographic_distance_matrix_parallel)) / 10000
 
@@ -82,17 +84,18 @@ combined_data <- data.frame(
   cophenetic_distances_vector = cophenetic_distances_vector,
   geographic_distance_matrix_parallel_vector = geographic_distance_matrix_parallel_vector,
   time_distance_matrix_vector = time_distance_matrix_vector,
-  OSM_distances_full_vector = OSM_distances_full_vector)
+  OSM_distances_full_vector = OSM_distances_full_vector
+)
 
 
 # Experiment ----
 
-# Loading hamming distance matrix for national subsample 
-hamming_distances_national <- read.csv("", header=FALSE)
+# Loading hamming distance matrix for national subsample
+hamming_distances_national <- read.csv("", header = FALSE)
 hamming_distances_national <- as.matrix(hamming_distances_national)
 hamming_distances_national_vector <- as.vector(hamming_distances_national)
 
-hamming_cophenetic_distances_vector <- as.vector(upper_triangular(cophenetic_distances))* 29891
+hamming_cophenetic_distances_vector <- as.vector(upper_triangular(cophenetic_distances)) * 29891
 hamming_time_distance_matrix_vector <- abs(as.vector(upper_triangular(time_distance_matrix_parallel))) / 7
 hamming_geographic_distance_matrix_parallel_vector <- as.vector(upper_triangular(geographic_distance_matrix_parallel)) / 10000
 hamming_OSM_distances_full_vector <- as.vector(upper_triangular(OSM_distances_full)) / 10000
@@ -100,7 +103,8 @@ hamming_OSM_distances_full_vector <- as.vector(upper_triangular(OSM_distances_fu
 small_dataframe <- data.frame(
   hamming_cophenetic_distances_vector = hamming_cophenetic_distances_vector,
   hamming_geographic_distance_matrix_parallel_vector = hamming_geographic_distance_matrix_parallel_vector,
-  hamming_distances_national_vector = hamming_distances_national_vector)
+  hamming_distances_national_vector = hamming_distances_national_vector
+)
 
 hamming_geography_genetic_time_model <- biglm(hamming_distances_national_vector ~ hamming_geographic_distance_matrix_parallel_vector, data = small_dataframe)
 summary(hamming_geography_genetic_time_model)
@@ -111,7 +115,7 @@ summary(hamming_cophenetic_model)
 
 
 # Regional data --------
-# Regression by region, 10,000 samples for each 
+# Regression by region, 10,000 samples for each
 # Nordjylland
 time_distance_matrix_Nordjylland <- readRDS(file = "")
 geographic_distance_matrix_Nordjylland <- readRDS(file = "")
@@ -125,7 +129,8 @@ combined_data_Nordjylland <- data.frame(
   time_distance_matrix_Nordjylland_vector = time_distance_matrix_Nordjylland_vector,
   cophenetic_distances_vector_Nordjylland = cophenetic_distances_vector_Nordjylland,
   geographic_distance_matrix_parallel_vector_Nordjylland = geographic_distance_matrix_parallel_vector_Nordjylland,
-  OSM_distances_nordjylland_vector = OSM_distances_nordjylland_vector)
+  OSM_distances_nordjylland_vector = OSM_distances_nordjylland_vector
+)
 
 # Midtjylland
 time_distance_matrix_Midtjylland <- readRDS(file = "")
@@ -140,9 +145,10 @@ combined_data_Midtjylland <- data.frame(
   time_distance_matrix_Midtjylland_vector = time_distance_matrix_Midtjylland_vector,
   cophenetic_distances_vector_Midtjylland = cophenetic_distances_vector_Midtjylland,
   geographic_distance_matrix_parallel_vector_Midtjylland = geographic_distance_matrix_parallel_vector_Midtjylland,
-  OSM_distances_midtjylland_vector = OSM_distances_midtjylland_vector)
+  OSM_distances_midtjylland_vector = OSM_distances_midtjylland_vector
+)
 
-# Syddanmark 
+# Syddanmark
 time_distance_matrix_Syddanmark <- readRDS(file = "")
 geographic_distance_matrix_Syddanmark <- readRDS(file = "")
 cophenetic_distances_Syddanmark <- readRDS(file = "")
@@ -155,9 +161,10 @@ combined_data_Syddanmark <- data.frame(
   time_distance_matrix_Syddanmark_vector = time_distance_matrix_Syddanmark_vector,
   cophenetic_distances_vector_Syddanmark = cophenetic_distances_vector_Syddanmark,
   geographic_distance_matrix_parallel_vector_Syddanmark = geographic_distance_matrix_parallel_vector_Syddanmark,
-  OSM_distances_syddanmark_vector = OSM_distances_syddanmark_vector)
+  OSM_distances_syddanmark_vector = OSM_distances_syddanmark_vector
+)
 
-# Hovedstaden 
+# Hovedstaden
 time_distance_matrix_Hovedstaden <- readRDS(file = "")
 geographic_distance_matrix_Hovedstaden <- readRDS(file = "")
 cophenetic_distances_Hovedstaden <- readRDS(file = "")
@@ -170,7 +177,8 @@ combined_data_Hovedstaden <- data.frame(
   time_distance_matrix_Hovedstaden_vector = time_distance_matrix_Hovedstaden_vector,
   cophenetic_distances_vector_Hovedstaden = cophenetic_distances_vector_Hovedstaden,
   geographic_distance_matrix_parallel_vector_Hovedstaden = geographic_distance_matrix_parallel_vector_Hovedstaden,
-  OSM_distances_hovedstaden_vector = OSM_distances_hovedstaden_vector)
+  OSM_distances_hovedstaden_vector = OSM_distances_hovedstaden_vector
+)
 
 # Sjælland
 time_distance_matrix_Sjælland <- readRDS(file = "")
@@ -185,7 +193,8 @@ combined_data_Sjælland <- data.frame(
   time_distance_matrix_Sjælland_vector = time_distance_matrix_Sjælland_vector,
   cophenetic_distances_vector_Sjælland = cophenetic_distances_vector_Sjælland,
   geographic_distance_matrix_parallel_vector_Sjælland = geographic_distance_matrix_parallel_vector_Sjælland,
-  OSM_distances_sjælland_vector = OSM_distances_sjælland_vector)
+  OSM_distances_sjælland_vector = OSM_distances_sjælland_vector
+)
 
 
 
@@ -196,7 +205,7 @@ cophenetic_distances_byzone <- readRDS(file = "")
 geographic_distance_matrix_byzone <- readRDS(file = "")
 time_distance_matrix_byzone <- readRDS(file = "")
 
-cophenetic_distances_byzone_vector <- as.vector(lower_triangular(cophenetic_distances_byzone))* 29891
+cophenetic_distances_byzone_vector <- as.vector(lower_triangular(cophenetic_distances_byzone)) * 29891
 time_distance_matrix_byzone_vector <- abs(as.vector(lower_triangular(time_distance_matrix_byzone))) / 7
 geographic_distance_matrix_byzone_vector <- as.vector(lower_triangular(geographic_distance_matrix_byzone)) / 10000
 
@@ -204,7 +213,8 @@ combined_data_byzone <- data.frame(
   cophenetic_distances_byzone_vector = cophenetic_distances_byzone_vector,
   geographic_distance_matrix_byzone_vector = geographic_distance_matrix_byzone_vector,
   time_distance_matrix_byzone_vector = time_distance_matrix_byzone_vector,
-  OSM_distances_byzone_vector = OSM_distances_byzone_vector)
+  OSM_distances_byzone_vector = OSM_distances_byzone_vector
+)
 
 
 # Landzone / Countryside
@@ -213,7 +223,7 @@ cophenetic_distances_landzone <- readRDS(file = "")
 geographic_distance_matrix_landzone <- readRDS(file = "")
 time_distance_matrix_landzone <- readRDS(file = "")
 
-cophenetic_distances_landzone_vector <- as.vector(lower_triangular(cophenetic_distances_landzone))* 29891
+cophenetic_distances_landzone_vector <- as.vector(lower_triangular(cophenetic_distances_landzone)) * 29891
 time_distance_matrix_landzone_vector <- abs(as.vector(lower_triangular(time_distance_matrix_landzone))) / 7
 geographic_distance_matrix_landzone_vector <- as.vector(lower_triangular(geographic_distance_matrix_landzone)) / 10000
 
@@ -221,7 +231,8 @@ combined_data_landzone <- data.frame(
   cophenetic_distances_landzone_vector = cophenetic_distances_landzone_vector,
   geographic_distance_matrix_landzone_vector = geographic_distance_matrix_landzone_vector,
   time_distance_matrix_landzone_vector = time_distance_matrix_landzone_vector,
-  OSM_distances_landzone_vector = OSM_distances_landzone_vector)
+  OSM_distances_landzone_vector = OSM_distances_landzone_vector
+)
 
 
 # Copenhagen
@@ -230,7 +241,7 @@ cophenetic_distances_copenhagen <- readRDS(file = "")
 geographic_distance_matrix_copenhagen <- readRDS(file = "")
 time_distance_matrix_copenhagen <- readRDS(file = "")
 
-cophenetic_distances_copenhagen_vector <- as.vector(lower_triangular(cophenetic_distances_copenhagen))* 29891
+cophenetic_distances_copenhagen_vector <- as.vector(lower_triangular(cophenetic_distances_copenhagen)) * 29891
 time_distance_matrix_copenhagen_vector <- abs(as.vector(lower_triangular(time_distance_matrix_copenhagen))) / 7
 geographic_distance_matrix_copenhagen_vector <- as.vector(lower_triangular(geographic_distance_matrix_copenhagen)) / 10000
 
@@ -238,7 +249,8 @@ combined_data_copenhagen <- data.frame(
   cophenetic_distances_copenhagen_vector = cophenetic_distances_copenhagen_vector,
   geographic_distance_matrix_copenhagen_vector = geographic_distance_matrix_copenhagen_vector,
   time_distance_matrix_copenhagen_vector = time_distance_matrix_copenhagen_vector,
-  OSM_distances_copenhagen_vector = OSM_distances_copenhagen_vector)
+  OSM_distances_copenhagen_vector = OSM_distances_copenhagen_vector
+)
 
 # Aarhus
 sampled_data_reordered_aarhus <- readRDS(file = "")
@@ -246,7 +258,7 @@ cophenetic_distances_aarhus <- readRDS(file = "")
 geographic_distance_matrix_aarhus <- readRDS(file = "")
 time_distance_matrix_aarhus <- readRDS(file = "")
 
-cophenetic_distances_aarhus_vector <- as.vector(lower_triangular(cophenetic_distances_aarhus))* 29891
+cophenetic_distances_aarhus_vector <- as.vector(lower_triangular(cophenetic_distances_aarhus)) * 29891
 time_distance_matrix_aarhus_vector <- abs(as.vector(lower_triangular(time_distance_matrix_aarhus))) / 7
 geographic_distance_matrix_aarhus_vector <- as.vector(lower_triangular(geographic_distance_matrix_aarhus)) / 10000
 
@@ -254,7 +266,8 @@ combined_data_aarhus <- data.frame(
   cophenetic_distances_aarhus_vector = cophenetic_distances_aarhus_vector,
   geographic_distance_matrix_aarhus_vector = geographic_distance_matrix_aarhus_vector,
   time_distance_matrix_aarhus_vector = time_distance_matrix_aarhus_vector,
-  OSM_distances_aarhus_vector = OSM_distances_aarhus_vector)
+  OSM_distances_aarhus_vector = OSM_distances_aarhus_vector
+)
 
 
 # Odense
@@ -263,7 +276,7 @@ cophenetic_distances_odense <- readRDS(file = "")
 geographic_distance_matrix_odense <- readRDS(file = "")
 time_distance_matrix_odense <- readRDS(file = "")
 
-cophenetic_distances_odense_vector <- as.vector(lower_triangular(cophenetic_distances_odense))* 29891
+cophenetic_distances_odense_vector <- as.vector(lower_triangular(cophenetic_distances_odense)) * 29891
 time_distance_matrix_odense_vector <- abs(as.vector(lower_triangular(time_distance_matrix_odense))) / 7
 geographic_distance_matrix_odense_vector <- as.vector(lower_triangular(geographic_distance_matrix_odense)) / 10000
 
@@ -271,7 +284,8 @@ combined_data_odense <- data.frame(
   cophenetic_distances_odense_vector = cophenetic_distances_odense_vector,
   geographic_distance_matrix_odense_vector = geographic_distance_matrix_odense_vector,
   time_distance_matrix_odense_vector = time_distance_matrix_odense_vector,
-  OSM_distances_odense_vector = OSM_distances_odense_vector)
+  OSM_distances_odense_vector = OSM_distances_odense_vector
+)
 
 
 
@@ -554,34 +568,46 @@ OSM_standard_errors_copenhagen_no_time <- sqrt(diag(vcov(OSM_genetic_model_copen
 
 # Combine coefficients and standard errors into a data frame
 geography_coefficients <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-                "Urban", "Countryside", "Copenhagen"),
-  estimate = c(coefficients[2], coefficients_Hovedstaden[2],
-               coefficients_Midtjylland[2], coefficients_Nordjylland[2],
-               coefficients_Sjælland[2],coefficients_Syddanmark[2],
-               coefficients_byzone[2],coefficients_landzone[2], coefficients_copenhagen[2]),
-  std_error = c(standard_errors[2], standard_errors_Hovedstaden[2],
-                standard_errors_Midtjylland[2],standard_errors_Nordjylland[2],
-                standard_errors_Sjælland[2],standard_errors_Syddanmark[2],
-                standard_errors_byzone[2],standard_errors_landzone[2], standard_errors_copenhagen[2])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    coefficients[2], coefficients_Hovedstaden[2],
+    coefficients_Midtjylland[2], coefficients_Nordjylland[2],
+    coefficients_Sjælland[2], coefficients_Syddanmark[2],
+    coefficients_byzone[2], coefficients_landzone[2], coefficients_copenhagen[2]
+  ),
+  std_error = c(
+    standard_errors[2], standard_errors_Hovedstaden[2],
+    standard_errors_Midtjylland[2], standard_errors_Nordjylland[2],
+    standard_errors_Sjælland[2], standard_errors_Syddanmark[2],
+    standard_errors_byzone[2], standard_errors_landzone[2], standard_errors_copenhagen[2]
+  )
 )
 geography_coefficients$conf_low <- geography_coefficients$estimate - 1.96 * geography_coefficients$std_error
 geography_coefficients$conf_high <- geography_coefficients$estimate + 1.96 * geography_coefficients$std_error
 
 
 
-#OSM
+# OSM
 OSM_coefficients <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-            "Urban", "Countryside", "Copenhagen"),
-  estimate = c(OSM_full_coefficients[2], OSM_coefficients_Hovedstaden[2],
-               OSM_coefficients_Midtjylland[2], OSM_coefficients_Nordjylland[2],
-               OSM_coefficients_Sjælland[2], OSM_coefficients_Syddanmark[2],
-               OSM_coefficients_byzone[2],OSM_coefficients_landzone[2], OSM_coefficients_copenhagen[2]),
-  std_error = c(OSM_full_standard_errors[2], OSM_standard_errors_Hovedstaden[2],
-                OSM_standard_errors_Midtjylland[2], OSM_standard_errors_Nordjylland[2],
-                OSM_standard_errors_Sjælland[2], OSM_standard_errors_Syddanmark[2],
-                OSM_standard_errors_byzone[2], OSM_standard_errors_landzone[2], OSM_standard_errors_copenhagen[2])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    OSM_full_coefficients[2], OSM_coefficients_Hovedstaden[2],
+    OSM_coefficients_Midtjylland[2], OSM_coefficients_Nordjylland[2],
+    OSM_coefficients_Sjælland[2], OSM_coefficients_Syddanmark[2],
+    OSM_coefficients_byzone[2], OSM_coefficients_landzone[2], OSM_coefficients_copenhagen[2]
+  ),
+  std_error = c(
+    OSM_full_standard_errors[2], OSM_standard_errors_Hovedstaden[2],
+    OSM_standard_errors_Midtjylland[2], OSM_standard_errors_Nordjylland[2],
+    OSM_standard_errors_Sjælland[2], OSM_standard_errors_Syddanmark[2],
+    OSM_standard_errors_byzone[2], OSM_standard_errors_landzone[2], OSM_standard_errors_copenhagen[2]
+  )
 )
 OSM_coefficients$conf_low <- OSM_coefficients$estimate - 1.96 * OSM_coefficients$std_error
 OSM_coefficients$conf_high <- OSM_coefficients$estimate + 1.96 * OSM_coefficients$std_error
@@ -589,16 +615,22 @@ OSM_coefficients$conf_high <- OSM_coefficients$estimate + 1.96 * OSM_coefficient
 
 # Time coefficients
 geography_coefficients_time <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-            "Urban", "Countryside", "Copenhagen"),
-  estimate = c(coefficients[3], coefficients_Hovedstaden[3],
-               coefficients_Midtjylland[3], coefficients_Nordjylland[3],
-               coefficients_Sjælland[3], coefficients_Syddanmark[3],
-               coefficients_byzone[3], coefficients_landzone[3], coefficients_copenhagen[3]),
-  std_error = c(standard_errors[3], standard_errors_Hovedstaden[3],
-                standard_errors_Midtjylland[3], standard_errors_Nordjylland[3],
-                standard_errors_Sjælland[3], standard_errors_Syddanmark[3],
-                standard_errors_byzone[3], standard_errors_landzone[3], standard_errors_copenhagen[3])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    coefficients[3], coefficients_Hovedstaden[3],
+    coefficients_Midtjylland[3], coefficients_Nordjylland[3],
+    coefficients_Sjælland[3], coefficients_Syddanmark[3],
+    coefficients_byzone[3], coefficients_landzone[3], coefficients_copenhagen[3]
+  ),
+  std_error = c(
+    standard_errors[3], standard_errors_Hovedstaden[3],
+    standard_errors_Midtjylland[3], standard_errors_Nordjylland[3],
+    standard_errors_Sjælland[3], standard_errors_Syddanmark[3],
+    standard_errors_byzone[3], standard_errors_landzone[3], standard_errors_copenhagen[3]
+  )
 )
 geography_coefficients_time$conf_low <- geography_coefficients_time$estimate - 1.96 * geography_coefficients_time$std_error
 geography_coefficients_time$conf_high <- geography_coefficients_time$estimate + 1.96 * geography_coefficients_time$std_error
@@ -606,16 +638,22 @@ geography_coefficients_time$conf_high <- geography_coefficients_time$estimate + 
 
 # For OSM Coefficients with only the third term
 OSM_coefficients_time <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-            "Urban", "Countryside", "Copenhagen"),
-  estimate = c(OSM_full_coefficients[3], OSM_coefficients_Hovedstaden[3],
-               OSM_coefficients_Midtjylland[3], OSM_coefficients_Nordjylland[3],
-               OSM_coefficients_Sjælland[3], OSM_coefficients_Syddanmark[3],
-               OSM_coefficients_byzone[3], OSM_coefficients_landzone[3], OSM_coefficients_copenhagen[3]),
-  std_error = c(OSM_full_standard_errors[3], OSM_standard_errors_Hovedstaden[3],
-                OSM_standard_errors_Midtjylland[3], OSM_standard_errors_Nordjylland[3],
-                OSM_standard_errors_Sjælland[3], OSM_standard_errors_Syddanmark[3],
-                OSM_standard_errors_byzone[3], OSM_standard_errors_landzone[3], OSM_standard_errors_copenhagen[3])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    OSM_full_coefficients[3], OSM_coefficients_Hovedstaden[3],
+    OSM_coefficients_Midtjylland[3], OSM_coefficients_Nordjylland[3],
+    OSM_coefficients_Sjælland[3], OSM_coefficients_Syddanmark[3],
+    OSM_coefficients_byzone[3], OSM_coefficients_landzone[3], OSM_coefficients_copenhagen[3]
+  ),
+  std_error = c(
+    OSM_full_standard_errors[3], OSM_standard_errors_Hovedstaden[3],
+    OSM_standard_errors_Midtjylland[3], OSM_standard_errors_Nordjylland[3],
+    OSM_standard_errors_Sjælland[3], OSM_standard_errors_Syddanmark[3],
+    OSM_standard_errors_byzone[3], OSM_standard_errors_landzone[3], OSM_standard_errors_copenhagen[3]
+  )
 )
 OSM_coefficients_time$conf_low <- OSM_coefficients_time$estimate - 1.96 * OSM_coefficients_time$std_error
 OSM_coefficients_time$conf_high <- OSM_coefficients_time$estimate + 1.96 * OSM_coefficients_time$std_error
@@ -630,34 +668,46 @@ OSM_coefficients_time$conf_high <- OSM_coefficients_time$estimate + 1.96 * OSM_c
 
 # Combine coefficients and standard errors into a data frame
 geography_coefficients_no_time <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-            "Urban", "Countryside", "Copenhagen"),
-  estimate = c(coefficients_no_time[2], coefficients_Hovedstaden_no_time[2],
-               coefficients_Midtjylland_no_time[2], coefficients_Nordjylland_no_time[2],
-               coefficients_Sjælland_no_time[2],coefficients_Syddanmark_no_time[2],
-               coefficients_byzone_no_time[2],coefficients_landzone_no_time[2], coefficients_copenhagen_no_time[2]),
-  std_error = c(standard_errors_no_time[2], standard_errors_Hovedstaden_no_time[2],
-                standard_errors_Midtjylland_no_time[2],standard_errors_Nordjylland_no_time[2],
-                standard_errors_Sjælland_no_time[2],standard_errors_Syddanmark_no_time[2],
-                standard_errors_byzone_no_time[2],standard_errors_landzone_no_time[2], standard_errors_copenhagen_no_time[2])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    coefficients_no_time[2], coefficients_Hovedstaden_no_time[2],
+    coefficients_Midtjylland_no_time[2], coefficients_Nordjylland_no_time[2],
+    coefficients_Sjælland_no_time[2], coefficients_Syddanmark_no_time[2],
+    coefficients_byzone_no_time[2], coefficients_landzone_no_time[2], coefficients_copenhagen_no_time[2]
+  ),
+  std_error = c(
+    standard_errors_no_time[2], standard_errors_Hovedstaden_no_time[2],
+    standard_errors_Midtjylland_no_time[2], standard_errors_Nordjylland_no_time[2],
+    standard_errors_Sjælland_no_time[2], standard_errors_Syddanmark_no_time[2],
+    standard_errors_byzone_no_time[2], standard_errors_landzone_no_time[2], standard_errors_copenhagen_no_time[2]
+  )
 )
 geography_coefficients_no_time$conf_low <- geography_coefficients_no_time$estimate - 1.96 * geography_coefficients_no_time$std_error
 geography_coefficients_no_time$conf_high <- geography_coefficients_no_time$estimate + 1.96 * geography_coefficients_no_time$std_error
 
 
 
-#OSM
+# OSM
 OSM_coefficients_no_time <- data.frame(
-  model = c("National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
-            "Urban", "Countryside", "Copenhagen"),
-  estimate = c(OSM_full_coefficients_no_time[2], OSM_coefficients_Hovedstaden_no_time[2],
-               OSM_coefficients_Midtjylland_no_time[2], OSM_coefficients_Nordjylland_no_time[2],
-               OSM_coefficients_Sjælland_no_time[2], OSM_coefficients_Syddanmark_no_time[2],
-               OSM_coefficients_byzone_no_time[2],OSM_coefficients_landzone_no_time[2], OSM_coefficients_copenhagen_no_time[2]),
-  std_error = c(OSM_full_standard_errors_no_time[2], OSM_standard_errors_Hovedstaden_no_time[2],
-                OSM_standard_errors_Midtjylland_no_time[2], OSM_standard_errors_Nordjylland_no_time[2],
-                OSM_standard_errors_Sjælland_no_time[2], OSM_standard_errors_Syddanmark_no_time[2],
-                OSM_standard_errors_byzone_no_time[2], OSM_standard_errors_landzone_no_time[2], OSM_standard_errors_copenhagen_no_time[2])
+  model = c(
+    "National", "Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark",
+    "Urban", "Countryside", "Copenhagen"
+  ),
+  estimate = c(
+    OSM_full_coefficients_no_time[2], OSM_coefficients_Hovedstaden_no_time[2],
+    OSM_coefficients_Midtjylland_no_time[2], OSM_coefficients_Nordjylland_no_time[2],
+    OSM_coefficients_Sjælland_no_time[2], OSM_coefficients_Syddanmark_no_time[2],
+    OSM_coefficients_byzone_no_time[2], OSM_coefficients_landzone_no_time[2], OSM_coefficients_copenhagen_no_time[2]
+  ),
+  std_error = c(
+    OSM_full_standard_errors_no_time[2], OSM_standard_errors_Hovedstaden_no_time[2],
+    OSM_standard_errors_Midtjylland_no_time[2], OSM_standard_errors_Nordjylland_no_time[2],
+    OSM_standard_errors_Sjælland_no_time[2], OSM_standard_errors_Syddanmark_no_time[2],
+    OSM_standard_errors_byzone_no_time[2], OSM_standard_errors_landzone_no_time[2], OSM_standard_errors_copenhagen_no_time[2]
+  )
 )
 OSM_coefficients_no_time$conf_low <- OSM_coefficients_no_time$estimate - 1.96 * OSM_coefficients_no_time$std_error
 OSM_coefficients_no_time$conf_high <- OSM_coefficients_no_time$estimate + 1.96 * OSM_coefficients_no_time$std_error
@@ -685,7 +735,7 @@ geography_coefficients$model <- factor(geography_coefficients$model, levels = mo
 geographic_plot <- ggplot(geography_coefficients, aes(x = model, y = estimate, color = color)) +
   geom_point(position = position_dodge(width = 0.8), size = 3) +
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high), position = position_dodge(width = 0.8), width = 0.2) +
-  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) + 
+  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) +
   labs(y = "Molecular Change", x = NULL) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   theme_minimal() +
@@ -702,7 +752,7 @@ OSM_coefficients$color <- ifelse(OSM_coefficients$estimate > 0, "Above", "Below"
 OSM_plot <- ggplot(OSM_coefficients, aes(x = model, y = estimate, color = color)) +
   geom_point(position = position_dodge(width = 0.8), size = 3) +
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high), position = position_dodge(width = 0.8), width = 0.2) +
-  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) + 
+  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) +
   labs(y = "Molecular Change", x = NULL) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   theme_minimal() +
@@ -719,7 +769,7 @@ geography_coefficients_no_time$model <- factor(geography_coefficients_no_time$mo
 geographic_plot_no_time <- ggplot(geography_coefficients_no_time, aes(x = model, y = estimate, color = color)) +
   geom_point(position = position_dodge(width = 0.8), size = 3) +
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high), position = position_dodge(width = 0.8), width = 0.2) +
-  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) + 
+  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) +
   labs(y = "Molecular Change", x = NULL) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   theme_minimal() +
@@ -734,7 +784,7 @@ OSM_coefficients_no_time$color <- ifelse(OSM_coefficients_no_time$estimate > 0, 
 OSM_plot_no_time <- ggplot(OSM_coefficients_no_time, aes(x = model, y = estimate, color = color)) +
   geom_point(position = position_dodge(width = 0.8), size = 3) +
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high), position = position_dodge(width = 0.8), width = 0.2) +
-  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) + 
+  scale_color_manual(values = c("Above" = "#440154FF", "Below" = "#21908CFF")) +
   labs(y = "Molecular Change", x = NULL) +
   geom_hline(yintercept = 0, linetype = "dotted") +
   theme_minimal() +
@@ -748,25 +798,26 @@ OSM_plot_no_time <- ggplot(OSM_coefficients_no_time, aes(x = model, y = estimate
 
 # Cophenetic distance plot -------
 
-results_by_region <- readRDS(file="results_by_region.rds")
-total_sample_data <- readRDS(file="total_sample_data.rds")
+results_by_region <- readRDS(file = "results_by_region.rds")
+total_sample_data <- readRDS(file = "total_sample_data.rds")
 total_sample_data$region_name <- "Full"
 total_sample_data$Region <- 1
 merged_data <- rbind(results_by_region, total_sample_data)
 
-cophenetic_mean_distance_plot <- ggplot(merged_data, aes(x = date, y = mean_distance*29891, color = region_name)) +
+cophenetic_mean_distance_plot <- ggplot(merged_data, aes(x = date, y = mean_distance * 29891, color = region_name)) +
   geom_line() +
-  scale_color_viridis(discrete = TRUE) +  # Use viridis color palette
+  scale_color_viridis(discrete = TRUE) + # Use viridis color palette
   labs(title = NULL, x = "Date", y = "Mean Cophenetic Distance", color = "Region") +
-  theme_minimal() + theme(legend.position = "none") +
+  theme_minimal() +
+  theme(legend.position = "none") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 # Getting legend to include in final plot
-legend_plot <- ggplot(merged_data, aes(x = date, y = mean_distance*29891, color = region_name)) +
+legend_plot <- ggplot(merged_data, aes(x = date, y = mean_distance * 29891, color = region_name)) +
   geom_line() +
-  scale_color_viridis(discrete = TRUE) +  # Use viridis color palette
+  scale_color_viridis(discrete = TRUE) + # Use viridis color palette
   labs(title = "Mean Cophenetic Distance over Time", x = "Date", y = "Mean Cophenetic Distance", color = "Region") +
-  theme_minimal()  +
+  theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 legend_plot <- get_legend(legend_plot)
 
@@ -782,7 +833,7 @@ distance_matrix_time_three_people <- readRDS(file = "")
 geographic_distance_matrix_households <- readRDS(file = "")
 samples_households <- readRDS(file = "")
 
-#Histograms
+# Histograms
 extract_diagonal_and_non_diagonal <- function(matrix) {
   diagonal <- diag(matrix)
   non_diagonal <- matrix[lower.tri(matrix, diag = FALSE)]
@@ -790,46 +841,46 @@ extract_diagonal_and_non_diagonal <- function(matrix) {
   return(list(diagonal = diagonal, non_diagonal = non_diagonal))
 }
 # Extract diagonal and non-diagonal elements for both matrices
-distance_matrix_average_three_people_nucleotides <- distance_matrix_average_three_people*29891
+distance_matrix_average_three_people_nucleotides <- distance_matrix_average_three_people * 29891
 elements_average <- extract_diagonal_and_non_diagonal(distance_matrix_average_three_people_nucleotides)
 
 histogram_diagonal_unadjusted <- ggplot(data = data.frame(x = elements_average$diagonal), aes(x = x)) +
-  geom_histogram(fill = "#440154", color = "white", bins = 30) + 
+  geom_histogram(fill = "#440154", color = "white", bins = 30) +
   labs(title = "Within Households", x = "Mean Pairwise Cophenetic Distance", y = "Frequency") +
   theme_classic() +
-  theme(panel.background = element_rect(fill = "white")) 
+  theme(panel.background = element_rect(fill = "white"))
 
 # Histogram for the non-diagonal elements in average matrix
 histogram_non_diagonal_unadjusted <- ggplot(data = data.frame(x = elements_average$non_diagonal), aes(x = x)) +
-  geom_histogram(fill = "#440154", color = "white", bins = 30) + 
+  geom_histogram(fill = "#440154", color = "white", bins = 30) +
   labs(title = "Between Households", x = "Mean Pairwise Cophenetic Distance", y = "Frequency") +
   theme_classic() +
   theme(panel.background = element_rect(fill = "white")) +
   scale_y_continuous(limits = c(0, 90000))
 
 # Normalizing for time
-time_normalized_cophenetic_distance <- (distance_matrix_average_three_people / distance_matrix_time_three_people)*29891
+time_normalized_cophenetic_distance <- (distance_matrix_average_three_people / distance_matrix_time_three_people) * 29891
 time_normalized_average_distance <- extract_diagonal_and_non_diagonal(time_normalized_cophenetic_distance)
 
 # Histogram for the diagonal elements in average matrix with time
 histogram_diagonal_adjusted <- ggplot(data = data.frame(x = time_normalized_average_distance$diagonal), aes(x = x)) +
-  geom_histogram(fill = "#440154", color = "white", bins = 30) +  
+  geom_histogram(fill = "#440154", color = "white", bins = 30) +
   labs(title = "Within Households, Time-Normalized", x = "Mean Pairwise Cophenetic Distance", y = "Frequency") +
   theme_classic() +
-  theme(panel.background = element_rect(fill = "white")) +  # Change background to plain
-  scale_x_continuous(limits = c(-0.1, 3), breaks = seq(0, 3, by = 0.5))  # Set x limits and tick marks
+  theme(panel.background = element_rect(fill = "white")) + # Change background to plain
+  scale_x_continuous(limits = c(-0.1, 3), breaks = seq(0, 3, by = 0.5)) # Set x limits and tick marks
 
 # Histogram for the non-diagonal elements in average matrix with time
 histogram_non_diagonal_adjusted <- ggplot(data = data.frame(x = time_normalized_average_distance$non_diagonal), aes(x = x)) +
-  geom_histogram(fill = "#440154", color = "white", bins = 30) + 
+  geom_histogram(fill = "#440154", color = "white", bins = 30) +
   labs(title = "Between Households, Time-Normalized", x = "Mean Pairwise Cophenetic Distance", y = "Frequency") +
   theme_classic() +
-  theme(panel.background = element_rect(fill = "white")) +  # Change background to plain
+  theme(panel.background = element_rect(fill = "white")) + # Change background to plain
   scale_x_continuous(limits = c(-0.1, 3), breaks = seq(0, 3, by = 0.5)) +
   scale_y_continuous(limits = c(0, 90000))
 
 
-#Linear regression model between households 
+# Linear regression model between households
 household_cophenetic_distance_matrix_vector <- as.vector(upper_triangular(distance_matrix_average_three_people)) * 29891
 household_time_distance_matrix_vector <- as.vector(upper_triangular(distance_matrix_time_three_people)) / 7
 household_geographic_distance_matrix_households_vector <- as.vector(upper_triangular(geographic_distance_matrix_households)) / 10000
@@ -837,7 +888,8 @@ household_geographic_distance_matrix_households_vector <- as.vector(upper_triang
 household_combined_data <- data.frame(
   cophenetic_distance_matrix_vector = household_cophenetic_distance_matrix_vector,
   geographic_distance_matrix_households_vector = household_geographic_distance_matrix_households_vector,
-  time_distance_matrix_vector = household_time_distance_matrix_vector)
+  time_distance_matrix_vector = household_time_distance_matrix_vector
+)
 
 household_geography_genetic_time_model <- biglm(cophenetic_distance_matrix_vector ~ geographic_distance_matrix_households_vector + time_distance_matrix_vector, data = household_combined_data)
 summary(household_geography_genetic_time_model)
@@ -856,7 +908,7 @@ coefs_ci_manual_household$conf_high <- coefs_ci_manual_household$estimate + 1.96
 coefficients_plot_household <- ggplot(coefs_ci_manual_household, aes(x = term, y = estimate, color = term)) +
   geom_point(position = position_dodge(width = 0.8), size = 3) +
   geom_errorbar(aes(ymin = conf_low, ymax = conf_high), position = position_dodge(width = 0.8), width = 0.2) +
-  labs(y = "Molecular Change", x=NULL) +
+  labs(y = "Molecular Change", x = NULL) +
   theme_minimal() +
   geom_hline(yintercept = 0, linetype = "dashed", color = "black") +
   guides(color = FALSE, shape = FALSE) +
@@ -870,16 +922,12 @@ ggsave("", coefficients_plot_household, width = 9, height = 6)
 
 
 # Overall, combined plot --------
-combined_geo_plot <- grid.arrange(histogram_diagonal_unadjusted, 
-                                  histogram_non_diagonal_unadjusted, geographic_plot, OSM_plot,
-                                  histogram_diagonal_adjusted,
-                                  histogram_non_diagonal_adjusted,  cophenetic_mean_distance_plot, 
-                                  legend_plot,
-                                  ncol = 4)
+combined_geo_plot <- grid.arrange(histogram_diagonal_unadjusted,
+  histogram_non_diagonal_unadjusted, geographic_plot, OSM_plot,
+  histogram_diagonal_adjusted,
+  histogram_non_diagonal_adjusted, cophenetic_mean_distance_plot,
+  legend_plot,
+  ncol = 4
+)
 
 ggsave("", combined_geo_plot, width = 15, height = 7)
-
-
-
-
-

@@ -1,14 +1,16 @@
 # Correlation, geographic region with cophenetic distance by zone (urban or rural)
 
 # Reading packages ----------
-library(ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, 
-        lubridate, rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, 
-        DSTdb, DBI, parallel, ggsignif, Rcpp, geosphere, biglm, graphics, 
-        pheatmap, viridis, patchwork, coefplot, ggpubr)
+library(
+  ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr,
+  lubridate, rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica,
+  DSTdb, DBI, parallel, ggsignif, Rcpp, geosphere, biglm, graphics,
+  pheatmap, viridis, patchwork, coefplot, ggpubr
+)
 
 
-#Loading basic data -----
-sequenced_individuals <- readRDS(file="")
+# Loading basic data -----
+sequenced_individuals <- readRDS(file = "")
 final_tree <- read.tree("")
 final_distance_tree <- read.tree("")
 
@@ -50,7 +52,7 @@ coordinates <- sampled_data_reordered[, c("longitude", "latitude")]
 geographic_distance_matrix_byzone <- foreach(i = 1:nrow(sampled_data_reordered), .combine = rbind) %dopar% {
   # Load the geosphere library inside the parallel block
   library(geosphere)
-  
+
   sapply(1:nrow(sampled_data_reordered), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
@@ -67,10 +69,10 @@ time_distance_matrix_byzone <- foreach(i = 1:nrow(sampled_data_reordered), .comb
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered, file="")
-saveRDS(cophenetic_distances_byzone, file="")
-saveRDS(geographic_distance_matrix_byzone, file="")
-saveRDS(time_distance_matrix_byzone, file="")
+saveRDS(sampled_data_reordered, file = "")
+saveRDS(cophenetic_distances_byzone, file = "")
+saveRDS(geographic_distance_matrix_byzone, file = "")
+saveRDS(time_distance_matrix_byzone, file = "")
 
 
 
@@ -97,7 +99,7 @@ registerDoParallel(cl)
 coordinates <- sampled_data_reordered_landzone[, c("longitude", "latitude")]
 geographic_distance_matrix_landzone <- foreach(i = 1:nrow(sampled_data_reordered_landzone), .combine = rbind) %dopar% {
   library(geosphere)
-  
+
   sapply(1:nrow(sampled_data_reordered_landzone), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
@@ -114,17 +116,17 @@ time_distance_matrix_landzone <- foreach(i = 1:nrow(sampled_data_reordered_landz
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered_landzone, file="")
-saveRDS(cophenetic_distances_landzone, file="")
-saveRDS(geographic_distance_matrix_landzone, file="")
-saveRDS(time_distance_matrix_landzone, file="")
+saveRDS(sampled_data_reordered_landzone, file = "")
+saveRDS(cophenetic_distances_landzone, file = "")
+saveRDS(geographic_distance_matrix_landzone, file = "")
+saveRDS(time_distance_matrix_landzone, file = "")
 
 
 
 
 
 # Postcode data for major cities ------
-postcodes <- read.csv(file="")
+postcodes <- read.csv(file = "")
 copenhagen_area <- subset(postcodes, grepl("^København|^Frederiksberg", Commune))
 copenhagen_postcodes <- unique(copenhagen_area$Postcode)
 
@@ -165,7 +167,7 @@ registerDoParallel(cl)
 coordinates <- sampled_data_reordered_copenhagen[, c("longitude", "latitude")]
 geographic_distance_matrix_copenhagen <- foreach(i = 1:nrow(sampled_data_reordered_copenhagen), .combine = rbind) %dopar% {
   library(geosphere)
-  
+
   sapply(1:nrow(sampled_data_reordered_copenhagen), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
@@ -182,19 +184,7 @@ time_distance_matrix_copenhagen <- foreach(i = 1:nrow(sampled_data_reordered_cop
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered_copenhagen, file="")
-saveRDS(cophenetic_distances_copenhagen, file="")
-saveRDS(geographic_distance_matrix_copenhagen, file="")
-saveRDS(time_distance_matrix_copenhagen, file="")
-
-
-
-
-
-
-
-
-
-
-
-
+saveRDS(sampled_data_reordered_copenhagen, file = "")
+saveRDS(cophenetic_distances_copenhagen, file = "")
+saveRDS(geographic_distance_matrix_copenhagen, file = "")
+saveRDS(time_distance_matrix_copenhagen, file = "")

@@ -1,14 +1,16 @@
-#Average cophenetic distance between people over time
+# Average cophenetic distance between people over time
 
 # Importing packages ----------
-library(ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
-        rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI, 
-        parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplotify, 
-        phangorn,heatmaply,RColorBrewer,graphics, purrr, future.apply, geosphere, patchwork, coefplot)
+library(
+  ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
+  rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI,
+  parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplotify,
+  phangorn, heatmaply, RColorBrewer, graphics, purrr, future.apply, geosphere, patchwork, coefplot
+)
 
 # Data Preparation (Tree and Metadata) ------------------------------
 sequenced_individuals <- readRDS(file = "")
-all_individual <- read.csv(file="")
+all_individual <- read.csv(file = "")
 distance_tree <- read.tree("")
 
 # Total sample -------------
@@ -32,27 +34,27 @@ foreach(i = 1:length(dates_2021), .combine = "c") %dopar% {
   date <- dates_2021[i]
   # Subset individuals by date
   individuals_on_date <- sequenced_individuals[strftime(sequenced_individuals$date, "%Y-%m-%d") == date, ]
-  
+
   library(ape)
-  
+
   # Subset tree by strains
   matched_strains <- match(distance_tree$tip.label, individuals_on_date$strain)
   tips_to_keep <- distance_tree$tip.label[!is.na(matched_strains)]
   pruned_tree <- ape::keep.tip(distance_tree, tips_to_keep)
-  
+
   # Calculate cophenetic distances for relevant individuals
   relevant_cophenetic_distances <- cophenetic(pruned_tree)
-  
+
   # Extract lower diagonal of the distance matrix
   lower_triangular <- relevant_cophenetic_distances[lower.tri(relevant_cophenetic_distances)]
-  
+
   # Calculate mean, median, and confidence intervals
   mean_distance <- mean(lower_triangular)
   median_distance <- median(lower_triangular)
   ci <- t.test(lower_triangular)$conf.int
   ci_low <- ci[1]
   ci_high <- ci[2]
-  
+
   # Return results
   c(mean_distance, median_distance, ci_low, ci_high)
 } -> results
@@ -65,10 +67,10 @@ median_distances <- results[seq(2, length(results), by = 4)]
 ci_lows <- results[seq(3, length(results), by = 4)]
 ci_highs <- results[seq(4, length(results), by = 4)]
 
-saveRDS(mean_distances, file="")
-saveRDS(median_distances, file="")
-saveRDS(ci_lows, file="")
-saveRDS(ci_highs, file="")
+saveRDS(mean_distances, file = "")
+saveRDS(median_distances, file = "")
+saveRDS(ci_lows, file = "")
+saveRDS(ci_highs, file = "")
 
 # Create a data frame for results
 total_sample_data <- data.frame(
@@ -76,7 +78,8 @@ total_sample_data <- data.frame(
   mean_distance = mean_distances,
   median_distance = median_distances,
   ci_low = ci_lows,
-  ci_high = ci_highs)
+  ci_high = ci_highs
+)
 
 
 # Plot mean distances with 95% confidence bands
@@ -106,25 +109,25 @@ analyze_region <- function(region_data) {
   median_distances <- numeric(length(dates_2021))
   ci_lows <- numeric(length(dates_2021))
   ci_highs <- numeric(length(dates_2021))
-  
+
   # Loop through each date
   for (i in seq_along(dates_2021)) {
     date <- dates_2021[i]
     # Subset individuals by date
     individuals_on_date <- region_data[strftime(region_data$date, "%Y-%m-%d") == date, ]
-    
+
     library(ape)
     # Subset tree by strains
     matched_strains <- match(distance_tree$tip.label, individuals_on_date$strain)
     tips_to_keep <- distance_tree$tip.label[!is.na(matched_strains)]
     pruned_tree <- ape::keep.tip(distance_tree, tips_to_keep)
-    
+
     # Calculate cophenetic distances for relevant individuals
     relevant_cophenetic_distances <- cophenetic(pruned_tree)
-    
+
     # Extract lower diagonal of the distance matrix
     lower_triangular <- relevant_cophenetic_distances[lower.tri(relevant_cophenetic_distances)]
-    
+
     # Calculate mean, median, and confidence intervals
     mean_distances[i] <- mean(lower_triangular)
     median_distances[i] <- median(lower_triangular)
@@ -132,7 +135,7 @@ analyze_region <- function(region_data) {
     ci_lows[i] <- ci[1]
     ci_highs[i] <- ci[2]
   }
-  
+
   # Create a data frame with results for the region
   region_results <- data.frame(
     date = as.Date(dates_2021),
@@ -141,7 +144,7 @@ analyze_region <- function(region_data) {
     ci_low = ci_lows,
     ci_high = ci_highs
   )
-  
+
   return(region_results)
 }
 
@@ -161,11 +164,11 @@ stopCluster(cl)
 # Saving
 results_by_region$Region <- rep(c(1081, 1082, 1083, 1084, 1085), each = 365)
 results_by_region$region_name <- factor(region_name_mapping[as.character(results_by_region$Region)])
-saveRDS(results_by_region, file="results_by_region.rds")
+saveRDS(results_by_region, file = "results_by_region.rds")
 
 
 
-#Merging -
+# Merging -
 total_sample_data$region_name <- "Full"
 total_sample_data$Region <- 1
 merged_data <- rbind(results_by_region, total_sample_data)
@@ -179,17 +182,17 @@ mean_plot <- ggplot(merged_data, aes(x = date, y = mean_distance)) +
   theme_minimal() +
   facet_wrap(~region_name, scales = "free_y", ncol = 1)
 
-ggplot(merged_data, aes(x = date, y = mean_distance*29891, color = region_name)) +
+ggplot(merged_data, aes(x = date, y = mean_distance * 29891, color = region_name)) +
   geom_line() +
   geom_ribbon(aes(ymin = ci_low, ymax = ci_high), fill = "black", alpha = 0.2) +
-  scale_color_viridis(discrete = TRUE) +  # Use viridis color palette
+  scale_color_viridis(discrete = TRUE) + # Use viridis color palette
   labs(title = "Mean Cophenetic Distance over Time", x = "Date", y = "Mean Distance", color = "Region") +
   theme_minimal()
 
-ggplot(merged_data, aes(x = date, y = median_distance*29891, color = region_name)) +
+ggplot(merged_data, aes(x = date, y = median_distance * 29891, color = region_name)) +
   geom_line() +
   geom_ribbon(aes(ymin = ci_low, ymax = ci_high), fill = "black", alpha = 0.2) +
-  scale_color_viridis(discrete = TRUE) +  # Use viridis color palette
+  scale_color_viridis(discrete = TRUE) + # Use viridis color palette
   labs(title = "Median Cophenetic Distance over Time", x = "Date", y = "Median Distance", color = "Region") +
   theme_minimal()
 
@@ -202,12 +205,12 @@ create_comparison_plot <- function(region1, region2) {
   # Filter data for the two regions
   comparison_data <- all_data %>%
     filter(region_name %in% c(region1, region2))
-  
+
   # Plot mean distances for the two regions with viridis colors
   ggplot(comparison_data, aes(x = date, y = mean_distance, color = region_name)) +
     geom_line() +
     geom_ribbon(aes(ymin = ci_low, ymax = ci_high), fill = "black", alpha = 0.3) +
-    scale_color_viridis(discrete = TRUE) +  # Use viridis color palette
+    scale_color_viridis(discrete = TRUE) + # Use viridis color palette
     labs(title = paste("Mean Cophenetic Distance for", region1, "and", region2), x = "Date", y = "Mean Distance", color = "Region") +
     theme_minimal()
 }
@@ -219,5 +222,3 @@ comparison_plots <- lapply(1:ncol(region_combinations), function(i) {
 
 # Arrange plots in a grid
 full_plot <- grid.arrange(grobs = comparison_plots, ncol = 2)
-
-
