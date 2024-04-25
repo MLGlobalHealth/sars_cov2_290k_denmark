@@ -147,3 +147,16 @@ full_tree_heatmap_normalized <- as.ggplot(pheatmap(transition_matrix_age,
 
 combined_plot <- ggarrange(full_tree_heatmap_text, full_tree_heatmap_normalized, ncol = 2)
 ggsave("", combined_plot, width = 12, height = 6)
+
+# Proportion test comparing diagonal vs. off-diagonal values --------
+within_same_age <- diag(transition_matrix_age)
+total_transmissions <- sum(transition_matrix_age)
+total_within_same_age <- sum(within_same_age)
+total_between_age <- total_transmissions - total_within_same_age
+proportion_within_same_age <- total_within_same_age / total_transmissions
+proportion_between_age <- total_between_age / total_transmissions
+test_result <- prop.test(x = c(total_within_same_age, total_between_age),
+                           n = c(total_transmissions, total_transmissions),
+                           alternative = "two.sided",
+                           correct = FALSE)
+print(test_result)
