@@ -4,7 +4,7 @@
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
   rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI,
-  parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplotify,
+  parallel, ggsignif, viridis, ggtree, ggpubr, treeio, gridExtra, cowplot, ggplot, ggplotify,
   phangorn, heatmaply, RColorBrewer, graphics, purrr, future.apply, geosphere, patchwork, coefplot
 )
 
@@ -15,7 +15,9 @@ distance_tree <- read.tree("")
 
 # Total sample -------------
 unique_dates <- unique(sequenced_individuals$date)
-dates_2021 <- unique_dates[as.Date(unique_dates) >= as.Date("2021-01-01") & as.Date(unique_dates) <= as.Date("2021-12-31")]
+dates_2021 <- unique_dates[
+  as.Date(unique_dates) >= as.Date("2021-01-01") & as.Date(unique_dates) <= as.Date("2021-12-31")
+]
 dates_2021 <- sort(dates_2021)
 
 # Initialize vectors to store results
@@ -30,7 +32,7 @@ cl <- makeCluster(cores)
 registerDoParallel(cl)
 
 # Parallel loop through each date
-foreach(i = 1:length(dates_2021), .combine = "c") %dopar% {
+foreach(i = seq_along(dates_2021), .combine = "c") %dopar% {
   date <- dates_2021[i]
   # Subset individuals by date
   individuals_on_date <- sequenced_individuals[strftime(sequenced_individuals$date, "%Y-%m-%d") == date, ]
@@ -155,7 +157,10 @@ registerDoParallel(cl)
 filtered_data <- sequenced_individuals %>% filter(!is.na(REGIONSKODE))
 
 # Split data by 'REGIONSKODE' and perform analysis for each region in parallel
-results_by_region <- foreach(region_data = split(filtered_data, filtered_data$REGIONSKODE), .combine = rbind) %dopar% {
+results_by_region <- foreach(
+  region_data = split(filtered_data, filtered_data$REGIONSKODE),
+  .combine = rbind
+) %dopar% {
   analyze_region(region_data)
 }
 # Stop the parallel backend
@@ -178,7 +183,12 @@ mean_plot <- ggplot(merged_data, aes(x = date, y = mean_distance)) +
   geom_line(aes(color = region_name)) +
   geom_ribbon(aes(ymin = ci_low, ymax = ci_high, fill = region_name), alpha = 0.3) +
   geom_smooth(method = "loess", se = TRUE, color = "red", linetype = "dashed") +
-  labs(title = "Mean Cophenetic Distance over Time", x = "Date", y = "Mean Distance", color = "Region") +
+  labs(
+    title = "Mean Cophenetic Distance over Time",
+    x = "Date",
+    y = "Mean Distance",
+    color = "Region"
+  ) +
   theme_minimal() +
   facet_wrap(~region_name, scales = "free_y", ncol = 1)
 
@@ -186,14 +196,24 @@ ggplot(merged_data, aes(x = date, y = mean_distance * 29891, color = region_name
   geom_line() +
   geom_ribbon(aes(ymin = ci_low, ymax = ci_high), fill = "black", alpha = 0.2) +
   scale_color_viridis(discrete = TRUE) + # Use viridis color palette
-  labs(title = "Mean Cophenetic Distance over Time", x = "Date", y = "Mean Distance", color = "Region") +
+  labs(
+    title = "Mean Cophenetic Distance over Time",
+    x = "Date",
+    y = "Mean Distance",
+    color = "Region"
+  ) +
   theme_minimal()
 
 ggplot(merged_data, aes(x = date, y = median_distance * 29891, color = region_name)) +
   geom_line() +
   geom_ribbon(aes(ymin = ci_low, ymax = ci_high), fill = "black", alpha = 0.2) +
   scale_color_viridis(discrete = TRUE) + # Use viridis color palette
-  labs(title = "Median Cophenetic Distance over Time", x = "Date", y = "Median Distance", color = "Region") +
+  labs(
+    title = "Median Cophenetic Distance over Time",
+    x = "Date",
+    y = "Median Distance",
+    color = "Region"
+  ) +
   theme_minimal()
 
 
@@ -216,7 +236,7 @@ create_comparison_plot <- function(region1, region2) {
 }
 
 # Create plots for each region combination
-comparison_plots <- lapply(1:ncol(region_combinations), function(i) {
+comparison_plots <- lapply(seq_along(ncol(region_combinations)), function(i) {
   create_comparison_plot(region_combinations[1, i], region_combinations[2, i])
 })
 

@@ -49,11 +49,14 @@ num_cores <- 8
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
 coordinates <- sampled_data_reordered[, c("longitude", "latitude")]
-geographic_distance_matrix_byzone <- foreach(i = 1:nrow(sampled_data_reordered), .combine = rbind) %dopar% {
+geographic_distance_matrix_byzone <- foreach(
+  i = seq_len(nrow(sampled_data_reordered)),
+  .combine = rbind
+) %dopar% {
   # Load the geosphere library inside the parallel block
   library(geosphere)
 
-  sapply(1:nrow(sampled_data_reordered), function(j) {
+  sapply(seq_len(nrow(sampled_data_reordered)), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
 }
@@ -62,8 +65,8 @@ stopCluster(cl)
 # Time between people
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
-time_distance_matrix_byzone <- foreach(i = 1:nrow(sampled_data_reordered), .combine = rbind) %dopar% {
-  sapply(1:nrow(sampled_data_reordered), function(j) {
+time_distance_matrix_byzone <- foreach(i = seq_len(nrow(sampled_data_reordered)), .combine = rbind) %dopar% {
+  sapply(seq_len(nrow(sampled_data_reordered)), function(j) {
     calculate_time_difference(sampled_data_reordered$date[i], sampled_data_reordered$date[j])
   })
 }
@@ -97,10 +100,10 @@ num_cores <- 8
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
 coordinates <- sampled_data_reordered_landzone[, c("longitude", "latitude")]
-geographic_distance_matrix_landzone <- foreach(i = 1:nrow(sampled_data_reordered_landzone), .combine = rbind) %dopar% {
+geographic_distance_matrix_landzone <- foreach(i = seq_len(nrow(sampled_data_reordered_landzone)), .combine = rbind) %dopar% {
   library(geosphere)
 
-  sapply(1:nrow(sampled_data_reordered_landzone), function(j) {
+  sapply(seq_len(nrow(sampled_data_reordered_landzone)), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
 }
@@ -109,9 +112,12 @@ stopCluster(cl)
 # Time between people
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
-time_distance_matrix_landzone <- foreach(i = 1:nrow(sampled_data_reordered_landzone), .combine = rbind) %dopar% {
-  sapply(1:nrow(sampled_data_reordered_landzone), function(j) {
-    calculate_time_difference(sampled_data_reordered_landzone$date[i], sampled_data_reordered_landzone$date[j])
+time_distance_matrix_landzone <- foreach(i = seq_len(nrow(sampled_data_reordered_landzone)), .combine = rbind) %dopar% {
+  sapply(seq_len(row(sampled_data_reordered_landzone)), function(j) {
+    calculate_time_difference(
+      sampled_data_reordered_landzone$date[i],
+      sampled_data_reordered_landzone$date[j]
+    )
   })
 }
 stopCluster(cl)
@@ -136,7 +142,10 @@ aarhus_postcodes <- unique(aarhus_area$Postcode)
 odense_area <- subset(postcodes, grepl("^Odense", Commune))
 odense_postcodes <- unique(odense_area$Postcode)
 
-copenhagen <- data.frame(city = "Copenhagen", postcode = paste(copenhagen_postcodes, collapse = ", "))
+copenhagen <- data.frame(
+  city = "Copenhagen",
+  postcode = paste(copenhagen_postcodes, collapse = ", ")
+)
 aarhus <- data.frame(city = "Aarhus", postcode = paste(aarhus_postcodes, collapse = ", "))
 odense <- data.frame(city = "Odense", postcode = paste(odense_postcodes, collapse = ", "))
 # Combining data frames
@@ -165,10 +174,13 @@ num_cores <- 8
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
 coordinates <- sampled_data_reordered_copenhagen[, c("longitude", "latitude")]
-geographic_distance_matrix_copenhagen <- foreach(i = 1:nrow(sampled_data_reordered_copenhagen), .combine = rbind) %dopar% {
+geographic_distance_matrix_copenhagen <- foreach(
+  i = seq_len(nrow(sampled_data_reordered_copenhagen)),
+  .combine = rbind
+) %dopar% {
   library(geosphere)
 
-  sapply(1:nrow(sampled_data_reordered_copenhagen), function(j) {
+  sapply(seq_len(nrow(sampled_data_reordered_copenhagen)), function(j) {
     calculate_haversine_distance(coordinates[i, ], coordinates[j, ])
   })
 }
@@ -177,9 +189,15 @@ stopCluster(cl)
 # Time between people
 cl <- makeCluster(num_cores)
 registerDoParallel(cl)
-time_distance_matrix_copenhagen <- foreach(i = 1:nrow(sampled_data_reordered_copenhagen), .combine = rbind) %dopar% {
-  sapply(1:nrow(sampled_data_reordered_copenhagen), function(j) {
-    calculate_time_difference(sampled_data_reordered_copenhagen$date[i], sampled_data_reordered_copenhagen$date[j])
+time_distance_matrix_copenhagen <- foreach(
+  i = seq_len(nrow(sampled_data_reordered_copenhagen)),
+  .combine = rbind
+) %dopar% {
+  sapply(seq_len(nrow(sampled_data_reordered_copenhagen)), function(j) {
+    calculate_time_difference(
+      sampled_data_reordered_copenhagen$date[i],
+      sampled_data_reordered_copenhagen$date[j]
+    )
   })
 }
 stopCluster(cl)

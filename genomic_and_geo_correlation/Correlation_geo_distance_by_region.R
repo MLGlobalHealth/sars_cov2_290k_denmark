@@ -27,7 +27,10 @@ haversine_distance <- function(lon1, lat1, lon2, lat2) {
 calculate_distance_matrix_parallel <- function(data) {
   num_individuals <- nrow(data)
   library(geosphere)
-  distances <- foreach(i = 1:num_individuals, .combine = rbind) %dopar% {
+  distances <- foreach(
+    i = 1:num_individuals,
+    .combine = rbind
+  ) %dopar% {
     result <- numeric(num_individuals)
     for (j in 1:num_individuals) {
       result[j] <- haversine_distance(
@@ -128,8 +131,8 @@ for (i in seq_along(region_names)) {
   sampled_data <- readRDS(paste0("sampled_data_", gsub(" ", "_", region_name), ".rds"))
   sampled_data$date <- as.Date(sampled_data$date) # Ensure 'date' is in Date format
 
-  time_distance_matrix_parallel <- foreach(i = 1:nrow(sampled_data), .combine = rbind) %dopar% {
-    sapply(1:nrow(sampled_data), function(j) {
+  time_distance_matrix_parallel <- foreach(i = seq_len(nrow(sampled_data)), .combine = rbind) %dopar% {
+    sapply(seq_len(nrow(sampled_data)), function(j) {
       calculate_time_difference(sampled_data$date[i], sampled_data$date[j])
     })
   }
