@@ -1,5 +1,7 @@
 # Average cophenetic distance between people over time
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Importing packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,

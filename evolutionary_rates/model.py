@@ -1,5 +1,7 @@
 """Utility functions for (regression) modelling"""
 
+# Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
+
 import pandas as pd
 import statsmodels.api as sm
 

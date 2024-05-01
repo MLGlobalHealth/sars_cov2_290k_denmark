@@ -1,5 +1,7 @@
 # Script for clade-by-clade description
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
   rlang, foreach, doParallel, DSTora, ROracle, DSTcolectica, DSTdb, DBI,

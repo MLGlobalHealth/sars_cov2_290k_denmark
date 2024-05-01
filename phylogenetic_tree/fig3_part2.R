@@ -1,5 +1,7 @@
 # Analysis of demographic details and ascertainment bias
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Importing packages
 library(
   ape, phytools, TreeTools, dplyr, tidyverse,

@@ -1,5 +1,7 @@
 # Ancestral state reconstruction using age groups
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Importing packages  ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,
@@ -155,8 +157,10 @@ total_within_same_age <- sum(within_same_age)
 total_between_age <- total_transmissions - total_within_same_age
 proportion_within_same_age <- total_within_same_age / total_transmissions
 proportion_between_age <- total_between_age / total_transmissions
-test_result <- prop.test(x = c(total_within_same_age, total_between_age),
-                           n = c(total_transmissions, total_transmissions),
-                           alternative = "two.sided",
-                           correct = FALSE)
+test_result <- prop.test(
+  x = c(total_within_same_age, total_between_age),
+  n = c(total_transmissions, total_transmissions),
+  alternative = "two.sided",
+  correct = FALSE
+)
 print(test_result)

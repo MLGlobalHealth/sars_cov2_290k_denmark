@@ -1,5 +1,7 @@
 # Correlation, geographic region with cophenetic distance by zone (urban or rural)
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Reading packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr,

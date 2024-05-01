@@ -351,3 +351,6 @@ rsconnect/
 drafts.ipynb
 tmp/
 drafts/
+
+# Notebooks (safety to not push sensitive data accidentally)
+*.ipynb

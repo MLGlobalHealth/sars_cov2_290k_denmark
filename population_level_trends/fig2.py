@@ -1,5 +1,7 @@
 """Script to recreate Figure 2"""
 
+# Author: Jacob Curran Sebastian (jacob.curran@sund.ku.dk)
+
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 # pylint: disable=redefined-outer-name, invalid-name
@@ -16,6 +18,9 @@ import scienceplots
 
 from matplotlib.dates import MonthLocator
 from tqdm import tqdm
+
+from population_level_trends.data import load_data
+from utils.config import N_DAYS, DK_POP
 
 # Palettes
 set2 = sns.color_palette("Set2")
@@ -35,11 +40,17 @@ plt.rcParams["xtick.labelsize"] = FONT_SIZE
 plt.rcParams["xtick.labelsize"] = FONT_SIZE
 
 # Other constants
-N_DAYS = 365  # number of days in a year
 T_RANGES = np.array(
-    ([0, 227], [106, 365], [325, 365], [338, 365], [4, 84], [13, 144], [56, 210])
+    (
+        [0, 227],
+        [106, N_DAYS],
+        [325, N_DAYS],
+        [338, N_DAYS],
+        [4, 84],
+        [13, 144],
+        [56, 210],
+    )
 )  # time ranges for each variant appearing (1st day - last day)
-DK_POP = 5840045  # Population of Denmark
 
 
 def parse_args():
@@ -49,63 +60,15 @@ def parse_args():
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "--input_folder",
+        "--input-folder",
         type=str,
         help="Input folder path",
     )
     return parser.parse_args()
 
 
-def load_data(root_folder, gp_folder):
-    """Load the data necessary for Figure 2
-
-    Returns
-    -------
-    proportions : pandas.DataFrame
-        Variant proportions
-    r_store : pandas.DataFrame
-        Growth rates
-    lineage_counts : pandas.DataFrame
-        Daily counts of each lineage
-    dk_iar : pandas.DataFrame
-        Denmark infection ascertainment rates (IARs)
-    seq_prop : numpy.ndarray
-        Proportion of PCR positives
-    nucleotide_diversity : numpy.ndarray
-        Nucleotide diversity
-    """
-    # Variant proportions
-    probabilities_file = f"{gp_folder}/Probabilities_new.csv"
-    proportions = pd.read_csv(probabilities_file)
-    # Drop first row and reorder columns
-    proportions.drop(0, inplace=True)
-    proportions = proportions.iloc[:, [0, 9, 1, 2, 3, 4, 5, 6, 7, 8]]
-
-    # Growth rates (and lineage names)
-    r_store = pd.read_csv(f"{gp_folder}/r_store.csv")
-
-    # Lineage counts
-    lineage_counts = pd.read_csv(f"{gp_folder}/day_counts_new.csv").drop(0)
-    lineage_counts[["All", "Alpha - B.1.1.7", "Other"]].head()
-
-    # DK IARs
-    dk_iar = pd.read_csv(f"{root_folder}/denmark_rt_iar.csv")
-    dk_iar.query("date >= '2021-01-01'", inplace=True)
-
-    # Proportion of PCR positives
-    seq_prop = np.genfromtxt(f"{root_folder}/proportion_of_pcrpositives_sequenced.csv")
-
-    # Nucleotide diversity
-    nucleotide_diversity = np.genfromtxt(
-        f"{root_folder}/GP_output/nucleotide_diversity.csv"
-    )
-
-    return proportions, r_store, lineage_counts, dk_iar, seq_prop, nucleotide_diversity
-
-
 def plot_gam(seq_prop):
-    ndays = 365
-    X1 = np.arange(ndays)
+    X1 = np.arange(N_DAYS)
     x2 = (X1 % 7).astype(str)
     X = np.array([X1, x2]).T
     y = seq_prop
@@ -130,28 +93,31 @@ def plot_gam(seq_prop):
     )
     plt.title(repr(gam_prop.terms[0]))
     plt.grid(alpha=0.5)
-    plt.xlim([0, ndays])
+    plt.xlim([0, N_DAYS])
     plt.title("GAM fit to Proportions")
     plt.show()
 
 
 def plot_nucleotide_diversity(nucleotide_diversity, days):
+    """Fig S2a"""
     fig = plt.figure()
 
     fig.set_figwidth(15)
 
     plt.grid(alpha=0.5)
     plt.plot(
-        np.arange(len(days) - 1), (np.array(nucleotide_diversity[1:366])) * (10**3)
+        np.arange(len(days) - 1),
+        (np.array(nucleotide_diversity[1 : N_DAYS + 1])) * (10**3),
     )
     plt.xlabel("Time (Days)")
     plt.ylabel(r"$\pi \times 10^3$")
-    plt.xlim([0, 365])
+    plt.xlim([0, N_DAYS])
     plt.title("Nucleotide Diversity of Sequences in Denmark in 2021")
     plt.show()
 
 
 def plot_relative_growth_rates(gp_folder, lineage_names):
+    """Part of Fig S1"""
     dr_list = []
 
     fig = plt.figure()
@@ -175,7 +141,7 @@ def plot_relative_growth_rates(gp_folder, lineage_names):
         )
 
     plt.axhline(0, color="black", linestyle="--")
-    plt.xlim([0, 366])
+    plt.xlim([0, N_DAYS + 1])
     plt.ylim([-0.4, 0.5])
     plt.ylabel("Daily Growth Rate")
     plt.xlabel("Date")
@@ -195,7 +161,8 @@ def fig2a(root_folder, lineage_names, dk_iar, lineage_counts, ax):
     """
     # Case data
     ssi_data = pd.read_csv(
-        f"{root_folder}/covid_SSI_epi_data/03_bekraeftede_tilfaelde_doede_indlagte_pr_dag_pr_koen.csv",
+        f"{root_folder}/covid_SSI_epi_data/"
+        "03_bekraeftede_tilfaelde_doede_indlagte_pr_dag_pr_koen.csv",
         sep=";",
         encoding="unicode_escape",
     )
@@ -252,8 +219,7 @@ def fig2c(seq_prop, dk_iar, ax):
     hospitalisation and mortality data and the proportion of PCR-positive
     tests taken each day for which we have a WGS
     """
-    ndays = 365
-    X1 = np.arange(ndays)
+    X1 = np.arange(N_DAYS)
     X2 = (X1 % 7).astype(str)
     X = np.array([X1, X2]).T
     y = seq_prop
@@ -374,6 +340,27 @@ def fig2(
     nucleotide_diversity,
     dr_list,
 ):
+    """Make Figure 2
+
+    Parameters
+    ----------
+    root_folder : str
+        Folder containing data of interest
+    proportions : pandas.DataFrame
+        Variant proportions
+    lineage_names : List
+        Lineage names
+    lineage_counts : pandas.DataFrame
+        Daily counts of each lineage
+    dk_iar : pandas.DataFrame
+        Denmark infection ascertainment rates (IARs)
+    seq_prop : numpy.ndarray
+        Proportion of PCR positives
+    nucleotide_diversity : numpy.ndarray
+        Nucleotide diversity
+    dr_list : list
+        Daily growth rates
+    """
     plt_rows = 6
     fig, axs = plt.subplots(nrows=plt_rows, ncols=1, figsize=(12, 14))
 
@@ -471,6 +458,7 @@ def main():
         nucleotide_diversity, days=proportions.DaysSinceStart.values
     )
 
+    # Part of Fig S1
     dr_list = plot_relative_growth_rates(gp_folder, lineage_names)
 
     fig2(

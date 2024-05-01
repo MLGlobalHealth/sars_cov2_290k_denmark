@@ -1,4 +1,6 @@
-# Castor analysis ------
+# Castor analysis
+
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
 
 # Importing packages ----------
 library(

@@ -1,5 +1,7 @@
 # Data generation for correlation between genetic and geographic distance
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Importing packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,

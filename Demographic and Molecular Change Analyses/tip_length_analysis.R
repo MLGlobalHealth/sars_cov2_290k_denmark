@@ -1,5 +1,7 @@
 # Data for Molecular Change Analysis
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Reading relevant packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table,

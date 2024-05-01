@@ -1,5 +1,7 @@
 # Data generation for correlation between geographic region and cophenetic distance by region
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Reading in packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr, lubridate,

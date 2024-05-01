@@ -1,3 +1,7 @@
+"""Build geographical distance matrices"""
+
+# Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
+
 using ArgParse
 using Base.Threads
 using CSV
@@ -70,7 +74,7 @@ function load_data(location)
 
 	println("Number of samples: $(size(df, 1))")
 
-	lon, lat = df.longitude, df.latitude
+	lon, lat = df[!, "longitude"], df[!, "latitude"]
 
 	return lon, lat
 end

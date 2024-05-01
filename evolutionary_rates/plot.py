@@ -1,5 +1,7 @@
 """Utility functions for plotting"""
 
+# Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
+
 import calendar
 import matplotlib.pyplot as plt
 import numpy as np

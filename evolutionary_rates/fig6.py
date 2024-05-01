@@ -1,4 +1,6 @@
-"""Main script for Figure 6 and Figures S9-S11"""
+"""Main script for Figure 6 and Figures S8-S9"""
+
+# Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
 
 import calendar
 
@@ -15,6 +17,7 @@ import scienceplots
 from evolutionary_rates.model import regress
 from evolutionary_rates.plot import pointplot, reg_coef_plot
 from evolutionary_rates.plot import REGION_PALETTE, VACC_PALETTE, VARIANT_PALETTE
+from utils.config import REF_LEN
 from utils.plot import set_size
 
 plt.style.use("nature")
@@ -31,7 +34,6 @@ REGION_MAPPING = {
 }
 
 # Genome length
-SARS_COV2_LENGTH = 29891
 
 VACC_MAPPING = {"0": "Unvacc.", "1": "Partial", "2": "Full"}
 
@@ -82,7 +84,7 @@ def process_data(filepath):
     df["major_major_variant"] = df.major_variant.apply(lambda x: x.split(" ")[0])
 
     # Number of substitutions = branch length times sequence length
-    df["n_changes"] = df["branch_lengths"] * SARS_COV2_LENGTH
+    df["n_changes"] = df["branch_lengths"] * REF_LEN
 
     # Use abbreviations for regions
     df["regions2"] = df["regions"].replace(REGION_MAPPING)

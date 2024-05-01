@@ -1,5 +1,7 @@
 """Script to recreate Figure 4b"""
 
+# Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
+
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 import matplotlib.dates as mdates
@@ -39,6 +41,17 @@ def parse_args():
 
 
 def get_dates(path_to_date_file):
+    """Get dates for each variant
+    Parameters
+    ----------
+    path_to_date_file : str
+        Path to csv file containing date information
+
+    Returns
+    -------
+    pandas.DataFrame
+        4 columns : first_date, last_date, clade, variant
+    """
     df = pd.read_csv(path_to_date_file, header=[0, 1, 2]).droplevel(
         level=[1, 2], axis=1
     )
@@ -62,7 +75,8 @@ def get_dates(path_to_date_file):
     return dates
 
 
-def main():
+def fig4b():
+    """Plot Figure 4b"""
     args = parse_args()
     dates = get_dates(args.date_filepath)
 
@@ -135,4 +149,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    fig4b()

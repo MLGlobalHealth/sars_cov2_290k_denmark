@@ -1,5 +1,7 @@
 # Geographic and Genomic Distance Correlation Plots
 
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
+
 # Importing packages ----------
 library(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table, dbplyr,

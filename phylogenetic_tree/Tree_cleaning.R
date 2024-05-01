@@ -1,4 +1,6 @@
-# Code to identify outliers
+# Code to identify branch length outliers from a tree
+
+# Author: Mark Khurana (mark.khurana@sund.ku.dk)
 
 library(
   "ape", "adegenet", "TreeTools", "tidyverse", "phangorn", "patchwork",
