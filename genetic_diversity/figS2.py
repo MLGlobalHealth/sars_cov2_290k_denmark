@@ -3,6 +3,9 @@
 # Author: Jacob Curran Sebastian (jacob.curran@sund.ku.dk)
 # pylint: disable=redefined-outer, invalid-name
 
+# Read in hamming distances, cophenetic distances and tajima d for each variant (and for all variants) - these can be calculated in Hamming.R
+# Nuclueotide diversity is calculated via the function _calculate_nucleotide_diversity_single and requires a path to sequences. 
+
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from datetime import datetime
 from time import time
