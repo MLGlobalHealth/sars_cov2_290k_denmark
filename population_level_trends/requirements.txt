@@ -1,4 +1,3 @@
-biopython==1.80.0
 pandas
 pygam
 scienceplots

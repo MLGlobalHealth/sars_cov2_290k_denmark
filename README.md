@@ -5,12 +5,13 @@ Code for "High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes
 ## Folders
 
 * Figure 1: workflow (see manuscript)
-* Figure 2, S1, S2: ```population_level_trends```
+* Figure 2: ```population_level_trends```
 * Figure 3: ```phylogenetic tree```
 * Figures 4, 5, S4, S5, S7: ```clade_characterization```
 * Figure 6, S8, S9: ```evolutionary_rates```
 * Figure 7, S10: ```genomic_and_geo_correlation```
-* Figure S3: ```hamming_distances```
+* Figure S1: ```growth_rates```
+* Figure S2, S3: ```genetic_diversity```
 
 To reproduce everything, install the .yml with conda/mamba:
 

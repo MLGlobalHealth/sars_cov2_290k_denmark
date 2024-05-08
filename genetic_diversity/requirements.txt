@@ -1,9 +1,6 @@
 biopython==1.80.0
-matplotlib
-numpy
-numpyro
+joblib
 pandas
 scienceplots
-scipy
 seaborn
 tqdm
