@@ -1,6 +1,7 @@
 # pylint: disable=invalid-name
 """Script to recreate Figure S1"""
 
+# Author: Jacob Curran Sebastian (jacob.curran@sund.ku.dk)
 
 import os
 import time

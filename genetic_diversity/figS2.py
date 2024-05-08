@@ -1,12 +1,15 @@
 """Script to recreate Figure S2"""
 
 # Author: Jacob Curran Sebastian (jacob.curran@sund.ku.dk)
-# pylint: disable=redefined-outer, invalid-name
+# pylint: disable=redefined-outer-name, invalid-name
 
-# Read in hamming distances, cophenetic distances and tajima d for each variant (and for all variants) - these can be calculated in Hamming.R
-# Nuclueotide diversity is calculated via the function _calculate_nucleotide_diversity_single and requires a path to sequences. 
+# Read in hamming distances, cophenetic distances and tajima d for each variant
+# (and for all variants) - these can be calculated in Hamming.R
 
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+# Nuclueotide diversity is calculated via the function
+# _calculate_nucleotide_diversity_single and requires a path to sequences.
+
+from argparse import ArgumentParser
 from datetime import datetime
 from time import time
 
@@ -31,7 +34,6 @@ def parse_args():
     """Parse options to recreate Fig S2."""
     parser = ArgumentParser(
         description="Arguments for Figure S2",
-        formatter_class=ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
         "--input-folder",
@@ -76,7 +78,7 @@ def _calculate_nucleotide_diversity_single(sequences, timer=False):
     nucleotides = ["A", "C", "T", "G"]
     pi_vec = np.zeros(nsites)
     ngaps = 0
-    if timer == False:
+    if not timer:
         iterator = range(nsites)
     else:
         iterator = tqdm(range(nsites))
