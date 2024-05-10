@@ -21,6 +21,8 @@ conda env create -f environment.yml
 
 To reproduce certain figures individually, consult the README files in each corresponding folder.
 
+Full newick files for each clade and for the whole tree are found in ```phylogenetic_newick_trees```
+
 ## Authors
 
 * Mark Khurana (<mark.khurana@sund.ku.dk>)
