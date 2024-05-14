@@ -30,13 +30,7 @@ Full newick files for each clade and for the whole tree are found in ```phylogen
 259,106 high-quality SARS-CoV-2 consensus genomes used in this study are available on the GISAID’s EpiCoV database under the EPI-SET accession number EPI_SET_240423qn.
 
 ## Software overview
-R (4.2.3)
-Python (3.10.10)
-Julia
-BEAST (1.10.4) for clade-specific phylogenetic tree inference
-MAPLE (0.3.1)
-Chronumental (0.0.60) for creating time trees from the MAPLE distance tree
-MAFFT (7.520) for sequence alignment
+R (4.2.3), Python (3.10.10), Julia, BEAST (1.10.4) for clade-specific phylogenetic tree inference, MAPLE (0.3.1), Chronumental (0.0.60) for creating time trees from the MAPLE distance tree, MAFFT (7.520) for sequence alignment
 
 ## Authors
 
