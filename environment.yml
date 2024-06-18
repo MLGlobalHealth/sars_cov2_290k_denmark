@@ -13,8 +13,11 @@ dependencies:
   - tqdm
   - cudatoolkit
   - statsmodels
+  - polars
   - pip:
     - pygam==0.9.0
     - scienceplots
     - jax==0.4.10
     - jaxlib==0.4.10+cuda11.cudnn86
+    - numpyro==0.13.2
+    - biopython==1.80.0
