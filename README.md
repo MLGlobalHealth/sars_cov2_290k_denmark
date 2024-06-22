@@ -1,6 +1,6 @@
-# SARS_CoV2_290k_Denmark
+# High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark
 
-Code for "High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark" (under review; available soon)
+Code for "High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark" (under review)
 
 ## Overview
 
@@ -27,9 +27,24 @@ To reproduce certain figures individually, consult the README files in each corr
 
 Full newick files for each clade and for the whole tree are found in ```phylogenetic_newick_trees```
 
-## Data availability
+## Data
+
+Some data is available under the ```data``` folder. Due to confidentiality restrictions, dummy/synthetic data has been generated from the real data to run the scripts.
+
+* ```BEAST_XML_files``` contains the XML files necessary to run BEAST
+* ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
+* ```synthetic``` contains synthetic data generated using the R package ```synthpop```.
+  * ```maple_tip_lengths.csv``` is dataset where each sequence is linked to both demographic (person ID, age, sex, region) and tree statistics (branch length and molecular rate).
+* ```other``` contains other publicly available data:
+
+| Data | Description  |
+|------|--------------|
+| pop_stats_2022M01.csv | Danish population per region and age |
+
+### Genomes
 
 259,106 high-quality SARS-CoV-2 consensus genomes used in this study are available on the GISAID’s EpiCoV database under the EPI-SET accession number EPI_SET_240423qn.
+
 
 ## Software overview
 

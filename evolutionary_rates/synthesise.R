@@ -2,22 +2,25 @@ library("dplyr")
 library("lubridate")
 library("synthpop")
 
+# Read the true data
 df <- read.csv("")
 
 # Add a days column for synthetic date generation
-df$days <- as.numeric(difftime(as.Date(df$date), as.Date("2021-01-01"), units="days"))
+df$days <- as.numeric(
+  difftime(as.Date(df$date), as.Date("2021-01-01"), units = "days")
+)
 
-sub_df <- subset(df, select=-c(Unnamed..0, PERSON_ID, date, age_groups, branch_lengths, month))
+sub_df <- subset(df, select = -c(Unnamed..0, PERSON_ID, date, age_groups, branch_lengths, month))
 
 # Density smoothing + increased ctree.minbucket decrease disclosure risk
-syn_data <- syn(sub_df, smoothing="density", ctree.minbucket=10)
+syn_data <- syn(sub_df, smoothing = "density", ctree.minbucket = 10)
 
 # Safety check
 replicated.uniques(syn_data, sub_df)
 sdc(syn_data, sub_df)
 
 # Quality check
-compare(syn_data, sub_df, stat="counts")
+compare(syn_data, sub_df, stat = "counts")
 
 # Augment
 syn_df <- syn_data$syn
@@ -39,9 +42,9 @@ syn_df <- syn_df %>% select(-days)
 
 ## Add age groups
 ### Define age groups
-AGE_GROUPS <- c("0-15", "15-30", "30-45", "45-60", "60-75", "75+")
+age_groups <- c("0-15", "15-30", "30-45", "45-60", "60-75", "75+")
 
-syn_df <- syn_df %>% mutate(age_groups = AGE_GROUPS[pmin((ages %/% 15) + 1, 6)])
+syn_df <- syn_df %>% mutate(age_groups = age_groups[pmin((ages %/% 15) + 1, 6)])
 
 # Save
 write.csv(syn_df, "data/synthetic/maple_tip_lengths.csv")
