@@ -7,28 +7,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
+from utils.config import VARIANT_PALETTE
 from utils.plot import clear_axes, set_size
-
-# Viridis
-REGION_PALETTE = {
-    "H": "#440154FF",
-    "M": "#3B528BFF",
-    "N": "#21908CFF",
-    "SJ": "#5DC863FF",
-    "SY": "#FDE725FF",
-}
-
-# colorblind
-VARIANT_PALETTE = {
-    "Wild type": "#CC78BC",
-    "Alpha": "#0173B2",
-    "Delta": "#DE8F05",
-    "Omicron": "#029E73",
-    "Other": "k",
-}
-
-# gnuplot
-VACC_PALETTE = {"Unvacc.": "#6001c6", "Partial": "#a71470", "Full": "#d75d00"}
 
 
 def _get_name_and_label(x, nnz):

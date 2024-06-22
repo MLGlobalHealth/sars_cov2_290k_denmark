@@ -1,4 +1,4 @@
-# Figures 4 and 5: Clade Characterization and Ancestral State Reconstruction
+# Figure 4: Clade Characterization and Ancestral State Reconstruction
 
 ## Dependencies
 

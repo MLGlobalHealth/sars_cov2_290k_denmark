@@ -1,4 +1,4 @@
-# Figure 6: Analysis of substitution rate variability
+# Figure 5: Analysis of substitution rate variability
 
 ## Dependencies
 
@@ -10,6 +10,8 @@ pip install -r requirements.txt
 
 ### Installation (R)
 
+For analysis:
+
 ```r
 install.packages(
   ape, phytools, TreeTools, dplyr, tidyverse, data.table,
@@ -17,4 +19,10 @@ install.packages(
   ggsignif, caper, picante, mgcv, patchwork, coefplot, ggpubr,
   stargazer, lme4
 )
+```
+
+For synthetic data generation:
+
+```r
+install.packages(synthpop)
 ```

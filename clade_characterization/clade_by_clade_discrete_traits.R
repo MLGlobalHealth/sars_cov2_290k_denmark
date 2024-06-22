@@ -24,7 +24,9 @@ region_name_mapping <- c(
   "1084" = "H",
   "1085" = "SJ"
 )
-sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)])
+sequenced_individual_detailed_metadata$region <- factor(
+  region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)]
+)
 all_positive_individuals <- readRDS(file = "")
 IAR_denmark_data <- read.csv(file = "")
 sequenced_individuals <- read.csv(file = "")
@@ -183,8 +185,18 @@ DTA_data_matched$age_group <- cut(DTA_data_matched$age_at_infection,
 states_age <- DTA_data_matched$age_group
 states_region <- DTA_data_matched$region
 # DTA
-ace_output_age <- ace(states_age, phy = current_MAPLE_tree_filtered, type = "discrete", method = "ML")
-ace_output_region <- ace(states_region, phy = current_MAPLE_tree_filtered, type = "discrete", method = "ML")
+ace_output_age <- ace(
+  states_age,
+  phy = current_MAPLE_tree_filtered,
+  type = "discrete",
+  method = "ML"
+)
+ace_output_region <- ace(
+  states_region,
+  phy = current_MAPLE_tree_filtered,
+  type = "discrete",
+  method = "ML"
+)
 
 # Getting most likely states
 i_region <- apply(ace_output_region$lik.anc, 1, which.max)
@@ -279,10 +291,6 @@ legend_plot <- as.ggplot(pheatmap(transition_matrix_region,
   legend = TRUE,
   angle_col = 45
 ))
-
-
-
-
 
 # Extract legend ------
 tree_gg <- ggtree(current_BEAST_tree, mrsd = mrsd) + theme_tree2()

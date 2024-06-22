@@ -1,10 +1,21 @@
-# figure 7: relationship between geographic and genomic distances alongside mean cophenetic distances within and between households, and mean cophenetic distance over time by region
+# Figure 6: relationship between geographic and genomic distances alongside mean cophenetic distances within and between households, and mean cophenetic distance over time by region
 
 ## OSRM distance matrix extraction (Julia)
 
+### Dependencies
+
+* ArgParse
+* CSV
+* Combinatorics
+* DataFrames
+* HTTP
+* JLD2
+* JSON
+* ProgressMeter
+
 ### Creating maps
 
-* Install osmosis: https://wiki.openstreetmap.org/wiki/Osmosis/Installation#Linux
+* Install ```osmosis```: <https://wiki.openstreetmap.org/wiki/Osmosis/Installation#Linux>
 
 * The national map can be downloaded from: <https://download.geofabrik.de/europe/denmark-latest.osm.pbf>
 

@@ -1,10 +1,10 @@
-"""Main script for Figure 6 and Figures S8-S9"""
+"""Main script for Figure 5 and Figures S8-10"""
 
 # Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
 
 import calendar
 
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from argparse import ArgumentParser
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -16,8 +16,14 @@ import scienceplots
 
 from evolutionary_rates.model import regress
 from evolutionary_rates.plot import pointplot, reg_coef_plot
-from evolutionary_rates.plot import REGION_PALETTE, VACC_PALETTE, VARIANT_PALETTE
-from utils.config import REF_LEN
+from utils.config import (
+    REF_LEN,
+    REGION_MAPPING,
+    VACC_MAPPING,
+    REGION_PALETTE,
+    VACC_PALETTE,
+    VARIANT_PALETTE,
+)
 from utils.plot import set_size
 
 plt.style.use("nature")
@@ -25,24 +31,11 @@ plt.rcParams["font.sans-serif"] = "Arial"
 
 month_order = {v: k for (k, v) in enumerate(calendar.month_abbr[1:])}
 
-REGION_MAPPING = {
-    "Hovedstaden": "H",
-    "Midtjylland": "M",
-    "Nordjylland": "N",
-    "Sjælland": "SJ",
-    "Syddanmark": "SY",
-}
-
-# Genome length
-
-VACC_MAPPING = {"0": "Unvacc.", "1": "Partial", "2": "Full"}
-
 
 def parse_args():
-    """Parse input-related options."""
+    """Parse arguments for Figure 5."""
     parser = ArgumentParser(
-        description="Arguments for Figure 6",
-        formatter_class=ArgumentDefaultsHelpFormatter,
+        description="Arguments for Figure 5",
     )
     parser.add_argument(
         "-i",
@@ -68,14 +61,11 @@ def process_data(filepath):
     df : pandas.DataFrame
         Processed data
     """
-    df = pd.read_csv(
-        filepath,
-        index_col=0,
-    )
+    df = pd.read_csv(filepath)
 
     df.dropna(subset=["month", "age_groups", "regions"], axis=0, inplace=True)
 
-    df["month"] = df["month"].astype(str).apply(lambda x: x.replace(".", "")[:3])
+    df["month"] = df["month"].apply(lambda x: calendar.month_abbr[1:][x - 1])
 
     df["date"] = pd.to_datetime(df.date)
 
@@ -105,7 +95,7 @@ def process_data(filepath):
     return df
 
 
-def fig6(df):
+def fig5(df):
     width, height = set_size(130, "s")
 
     for col in ["n_changes", "rate"]:
@@ -160,7 +150,7 @@ def fig6(df):
 
             fig.tight_layout()
             plt.savefig(
-                f"img/{col}_nnz={nnz}.pdf",
+                f"evolutionary_rates/img/{col}_nnz={nnz}.pdf",
                 format="pdf",
                 bbox_inches="tight",
                 pad_inches=0.1,
@@ -168,7 +158,7 @@ def fig6(df):
             plt.show()
 
 
-def fig_s9_to_s11(df, params_ols_rates_nnz, params_ols_rates, params_zinb):
+def fig_s8_to_s10(df, params_ols_rates_nnz, params_ols_rates, params_zinb):
     region_order = {v: k for (k, v) in enumerate(sorted(df.regions2.unique())[1:])}
 
     groups = {
@@ -229,7 +219,7 @@ def fig_s9_to_s11(df, params_ols_rates_nnz, params_ols_rates, params_zinb):
 
         fig.tight_layout()
         plt.savefig(
-            f"img/reg_{model_name}_{col}_nnz={nnz}.pdf",
+            f"evolutionary_rates/img/reg_{model_name}_{col}_nnz={nnz}.pdf",
             format="pdf",
             bbox_inches="tight",
             pad_inches=0.1,
@@ -241,7 +231,7 @@ def main():
 
     df = process_data(args.input)
 
-    fig6(df)
+    fig5(df)
 
     # OLS regression
     _, params_ols_rates = regress(model_name="ols", df=df, y="rate")
@@ -254,7 +244,7 @@ def main():
     # ZINB regression
     _, params_zinb = regress(model_name="zinb", df=df, y="n_changes", regularized=True)
 
-    fig_s9_to_s11(df, params_ols_rates_nnz, params_ols_rates, params_zinb)
+    fig_s8_to_s10(df, params_ols_rates_nnz, params_ols_rates, params_zinb)
 
 
 if __name__ == "__main__":
