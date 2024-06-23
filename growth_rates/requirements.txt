@@ -2,4 +2,4 @@ jax[cuda12_pip]
 numpyro==0.13.2
 numpy
 scienceplots
-seaborn
+seaborn==0.13.2

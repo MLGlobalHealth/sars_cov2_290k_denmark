@@ -35,10 +35,6 @@ read.jld2 <- function(fname, key) {
   return(dist)
 }
 
-
-
-
-
 # Load data --------
 
 # Loading distance and time matrices from Open Street Maps for all datasets ----------------------
@@ -66,9 +62,6 @@ OSM_distances_copenhagen_vector <- as.vector(lower_triangular(OSM_distances_cope
 OSM_distances_odense_vector <- as.vector(lower_triangular(OSM_distances_odense)) / 10000
 OSM_distances_aarhus_vector <- as.vector(lower_triangular(OSM_distances_aarhus)) / 10000
 
-
-
-
 # All of Denmark, 20,000 samples ---------
 # Loading basic data
 time_distance_matrix_parallel <- readRDS(file = "")
@@ -88,7 +81,6 @@ combined_data <- data.frame(
   time_distance_matrix_vector = time_distance_matrix_vector,
   OSM_distances_full_vector = OSM_distances_full_vector
 )
-
 
 # Experiment ----
 
@@ -113,8 +105,6 @@ summary(hamming_geography_genetic_time_model)
 
 hamming_cophenetic_model <- biglm(hamming_distances_national_vector ~ hamming_cophenetic_distances_vector, data = small_dataframe)
 summary(hamming_cophenetic_model)
-
-
 
 # Regional data --------
 # Regression by region, 10,000 samples for each

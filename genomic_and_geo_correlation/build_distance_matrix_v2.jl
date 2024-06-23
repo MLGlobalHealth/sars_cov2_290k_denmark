@@ -1,9 +1,11 @@
 """
     Build geographical distance matrices
+
     This version is (much) slower but works offline with downloaded maps.
     It does not require access to the OSRM api.
+
     This script serves as an example of how one could proceed with download maps,
-    but will thus not be tested/maintained!
+    but will thus not be maintained!
 """
 
 # Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
@@ -23,7 +25,7 @@ using Random
 ox = OpenStreetMapX
 
 # Paths
-GEO_PATH = "data/synthetic/geo/"
+GEO_PATH = "data/synthetic/geo"
 
 MAP_PATH = "data/maps"
 
@@ -72,11 +74,11 @@ function load_data(location)
     if location in ["Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark"]
         map_fname = "$MAP_PATH/$(lowercase(location)).osm.pbf"
     elseif location == "Copenhagen"
-        map_fame = "$MAP_PATH/Hovedstaden.osm.pbf"
+        map_fname = "$MAP_PATH/Hovedstaden.osm.pbf"
     elseif location == "Aarhus"
-        map_fame = "$MAP_PATH/Midtjylland.osm.pbf"
+        map_fname = "$MAP_PATH/Midtjylland.osm.pbf"
     elseif location == "Odense"
-        map_fame = "$MAP_PATH/Syddanmark.osm.pbf"
+        map_fname = "$MAP_PATH/Syddanmark.osm.pbf"
     else
         map_fname = "$MAP_PATH/denmark-latest.osm.pbf"
     end

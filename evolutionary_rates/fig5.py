@@ -109,7 +109,7 @@ def fig5(df):
                 x="age_groups",
                 y=col,
                 nnz=nnz,
-                color="k",
+                palette="dark:k",
                 xlabel="Age",
                 rotate=True,
                 ax=axs[0],

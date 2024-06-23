@@ -1,18 +1,16 @@
-library(ape)
-library(phangorn)
-library(readr)
-
 ## Use this R script to calculate hamming distances from a folder of fasta files
 ## Also use later to calculate Tajima's D statistic over time, again from a
 ## folder of fasta files
+
+library(ape)
+library(phangorn)
+library(readr)
 
 setwd(wd)
 sequence_directory <- ""
 files <- list.files(sequence_directory)
 output_directory <- ""
 n_files <- length(files)
-hamming_output_directory
-
 
 input_file <- files[1]
 input_path <- paste(sequence_directory, input_file, sep = "")
@@ -69,11 +67,6 @@ for (i in 1:n_files) {
 run_time <- as.integer((Sys.time() - start_time)[[1]])
 print(run_time)
 
-
-
-
-
-
 # Hamming Distance matrices
 for (i in 1:n_files) {
   start_time <- Sys.time()
@@ -98,8 +91,6 @@ for (i in 1:n_files) {
   ))
   print(run_time)
 }
-
-
 
 # Tajima D statistic
 
@@ -134,7 +125,6 @@ for (i in 1:n_files) {
   ))
   print(run_time)
 }
-
 
 # Save output
 

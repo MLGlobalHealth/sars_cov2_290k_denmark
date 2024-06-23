@@ -44,7 +44,7 @@ osmosis --read-pbf data/maps/denmark-latest.osm.pbf --bb left=10.814805 bottom=5
 ```bash
 export JULIA_NUM_THREADS=16 # change number as desired
 
-julia build_distance_matrix_v2.jl
+julia genomic_and_geo_correlation/build_distance_matrix_v2.jl
 ```
 
 ## Downstream analyses (R)

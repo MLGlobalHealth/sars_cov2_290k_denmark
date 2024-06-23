@@ -1,5 +1,5 @@
 pandas
 pygam
 scienceplots
-seaborn
+seaborn==0.13.2
 tqdm

@@ -1,4 +1,4 @@
-"""Constants, mapping, and colour palettes"""
+"""Constants, encodings, and colour palettes"""
 
 from typing import Final
 

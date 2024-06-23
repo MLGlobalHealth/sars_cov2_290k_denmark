@@ -1,3 +1,5 @@
+"""Plotting utility functions."""
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -6,12 +8,15 @@ def clear_axes(
     ax=None, top=True, right=True, left=False, bottom=False, minorticks_off=True
 ):
     """A more forcing version of sns.despine.
+
+    Parameters
+    ----------
     ax : matplotlib axes, optional
         Specific axes object to despine. Ignored if fig is provided.
-    top, right, left, bottom : boolean, optional
+    top, right, left, bottom : bool, optional
         If True, remove that spine.
-    minorticks_off: boolean, optional
-        If True, remove all minor ticks
+    minorticks_off : bool, optional
+        If True, remove all minor ticks, by default True.
     """
     if ax is None:
         axes = plt.gcf().axes
@@ -35,19 +40,19 @@ def set_size(width, layout="h", fraction=1):
 
     Parameters
     ----------
-    width: float
+    width : float
         Document textwidth or columnwidth in pts
         Report: 390 pt
-    layout: string
+    layout : string
         h: horizontal layout
         v: vertical layout
         s: square layout
-    fraction: float, optional
+    fraction : float, optional
         Fraction of the width which you wish the figure to occupy
 
     Returns
     -------
-    fig_dim: tuple
+    fig_dim : tuple
         Dimensions of figure in inches (width, height)
     """
     # Width of figure (in pts)

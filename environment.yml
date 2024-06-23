@@ -9,7 +9,7 @@ dependencies:
   - scikit-learn
   - ipywidgets
   - ipykernel
-  - seaborn
+  - seaborn==0.13.2
   - tqdm
   - cudatoolkit
   - statsmodels
