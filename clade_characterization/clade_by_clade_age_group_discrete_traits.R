@@ -24,7 +24,6 @@ region_name_mapping <- c(
   "1085" = "Sjælland"
 )
 sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)])
-all_positive_individuals <- readRDS(file = "")
 IAR_denmark_data <- read.csv(file = "")
 sequenced_individuals <- read.csv(file = "")
 
