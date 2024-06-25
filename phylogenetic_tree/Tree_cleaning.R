@@ -60,7 +60,7 @@ ape::write.tree(pruned_tree, file = "", digits = 16)
 
 # BRMS --------
 # Read in chronumental tree and output metadata
-tr_chron <- read.tree("")
+tr_chron <- read.tree("time_tree.nwk")
 tsv_data <- read.table("", header = TRUE, sep = "\t")
 chronumental_date_predicted_merged_data <- merge(merged_metadata, tsv_data, by = "strain")
 chronumental_date_predicted_merged_data$predicted_date <- decimal_date(
