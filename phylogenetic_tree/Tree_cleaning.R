@@ -40,7 +40,7 @@ merged_metadata <- merge(
 # MAPLE run for all sequences
 # Finding outliers for branch lengths and removing the reference sequence ---------
 # Readin in MAPLE tree
-tr2 <- read.tree("newids_consensus_2021_tree.tree")
+tr2 <- read.tree("distance_tree.tree")
 
 # Fit gamma distribution and then prune outliers
 # Extract branch lengths from the tree
