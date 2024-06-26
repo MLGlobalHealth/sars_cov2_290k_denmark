@@ -28,7 +28,7 @@ sequenced_individual_detailed_metadata$region <- factor(
   region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)]
 )
 IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- read.csv(file = "")
+sequenced_individuals <- readRDS(file = "")
 
 # Region colour mapping:
 region_color_mapping <- data.frame(
