@@ -12,7 +12,7 @@ library(
 
 # Data Preparation (Tree and Metadata) ------------------------------
 sequenced_individuals <- readRDS(file = "")
-all_individual <- read.csv(file = "")
+all_individual <- readRDS(file = "")
 distance_tree <- read.tree("")
 
 # Total sample -------------
