@@ -14,6 +14,9 @@ library(
 sequenced_individuals <- readRDS(file = "")
 final_tree <- read.tree("")
 final_distance_tree <- read.tree("")
+geographic_distance_matrix <- readRDS(file="")
+time_distance_matrix_parallel <- readRDS(file="")
+cophenetic_distances <- readRDS(file="")
 
 rownames(geo_distance_matrix_parallel) <- colnames(geo_distance_matrix_parallel) <- sequenced_individuals$PERSON_ID
 
