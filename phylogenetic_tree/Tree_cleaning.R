@@ -11,8 +11,8 @@ library(
 )
 
 # Reading metadata and matching names to sequences in order to get dates
-summary_data <- read.csv()
-metadata <- read.csv()
+summary_data <- readRDS()
+metadata <- readRDS()
 colnames(summary_data)[colnames(summary_data) == "file_name"] <- "ConsensusFilename"
 metadata$ConsensusFilename <- gsub("\\.fa$|\\.fasta$", "", metadata$ConsensusFilename)
 merged_metadata <- merge(
@@ -24,18 +24,6 @@ merged_metadata <- merge(
 )
 merged_metadata$seq_name <- gsub("\\.fa$|\\.fasta$", "", merged_metadata$seq_name)
 merged_metadata$strain <- merged_metadata$seq_name
-
-# Importing pango lineages and adding to merged_metadata
-consensus_pango <- read.csv("")
-colnames(consensus_pango)[1] <- "strain"
-merged_metadata <- merge(
-  merged_metadata,
-  consensus_pango,
-  by = "strain",
-  all.x = TRUE,
-  all.y = TRUE
-)
-
 
 # MAPLE run for all sequences
 # Finding outliers for branch lengths and removing the reference sequence ---------
@@ -60,7 +48,7 @@ ape::write.tree(pruned_tree, file = "", digits = 16)
 
 # BRMS --------
 # Read in chronumental tree and output metadata
-tr_chron <- read.tree("time_tree.nwk")
+tr_chron <- read.tree("time_tree.tree")
 tsv_data <- read.table("", header = TRUE, sep = "\t")
 chronumental_date_predicted_merged_data <- merge(merged_metadata, tsv_data, by = "strain")
 chronumental_date_predicted_merged_data$predicted_date <- decimal_date(
@@ -71,7 +59,7 @@ chronumental_date_predicted_merged_data$date <- decimal_date(
 )
 
 # Running BRMS (Bayesian Regression Models using Stan) to see which to remove as outliers
-data <- chronumental_date_predicted_merged_data[, c("strain", "date", "predicted_date", "variant")]
+data <- chronumental_date_predicted_merged_data[, c("strain", "date", "predicted_date")]
 
 library(rstanarm)
 d <- data
