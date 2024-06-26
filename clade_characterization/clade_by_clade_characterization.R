@@ -108,7 +108,7 @@ sequenced_individual_detailed_metadata <- sequenced_individual_detailed_metadata
 sequenced_individual_detailed_metadata <- sequenced_individual_detailed_metadata %>%
   filter(date >= BOP_VFRA & date <= BOP_VTIL)
 # Only keeping people that made the final tree
-full_timetree <- read.tree("final_pruned_no_matOptimize_chronumental_consensus_2021_tree.tree")
+full_timetree <- read.tree("")
 tip_labels_tree <- full_timetree$tip.label
 # Filter rows based on whether 'strain' is in tip labels
 sequenced_individual_detailed_metadata <- sequenced_individual_detailed_metadata %>%
