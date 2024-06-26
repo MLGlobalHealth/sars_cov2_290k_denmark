@@ -51,9 +51,6 @@ phylo_geodistance_correlation <- correlate_phylo_geodistances(pruned_tree,
   alternative = "two-sided",
   radius = 6371
 )
-
-
-phylo_geodistance_correlation <- readRDS(file = "")
 # Results $correlation, [1] -0.00808918, $Npairs [1] 400000000, $Pvalue [1] 0, $mean_random_correlation [1] 0.0003436232
 
 
