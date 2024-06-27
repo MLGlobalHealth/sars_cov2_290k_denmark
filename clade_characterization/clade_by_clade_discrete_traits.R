@@ -234,10 +234,24 @@ for (i in 1:nrow(current_MAPLE_tree$edge)) {
   }
 }
 
-
-# Convert matrix to dataframe
 transition_matrix_region <- as.matrix(transition_matrix_region)
 
+# Proportion test --------
+within_same_region <- diag(transition_matrix_region)
+total_transmissions <- sum(transition_matrix_region)
+total_within_same_region <- sum(within_same_region)
+total_between_region <- total_transmissions - total_within_same_region
+proportion_within_same_region <- total_within_same_region / total_transmissions
+proportion_between_region <- total_between_region / total_transmissions
+test_result <- prop.test(x = c(total_within_same_region, total_between_region),
+                         n = c(total_transmissions, total_transmissions),
+                         alternative = "two.sided",
+                         correct = FALSE)
+print(test_result)
+
+
+# Plotting ------
+# Convert matrix to dataframe
 df <- as.data.frame.table(transition_matrix_region)
 df$Freq <- factor(df$Freq)
 df$Freq <- as.numeric(as.character(df$Freq))
@@ -246,7 +260,6 @@ sorted_var2 <- sort(unique(df$Var2))
 df$Var1 <- factor(df$Var1, levels = sorted_var1)
 df$Var2 <- factor(df$Var2, levels = sorted_var2)
 
-# Plot
 full_tree_heatmap <- ggplot(df, aes(x = Var1, y = Var2, fill = Freq)) +
   geom_tile() +
   scale_fill_viridis_c() + # Using continuous color scale
