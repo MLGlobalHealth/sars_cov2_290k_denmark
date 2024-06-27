@@ -51,12 +51,12 @@ ape::write.tree(pruned_tree, file = "", digits = 16)
 tr_chron <- read.tree("time_tree.tree")
 tsv_data <- read.table("", header = TRUE, sep = "\t")
 chronumental_date_predicted_merged_data <- merge(merged_metadata, tsv_data, by = "strain")
-chronumental_date_predicted_merged_data$predicted_date <- decimal_date(
-  as.Date(chronumental_date_predicted_merged_data$predicted_date)
-)
-chronumental_date_predicted_merged_data$date <- decimal_date(
-  as.Date(chronumental_date_predicted_merged_data$date)
-)
+#chronumental_date_predicted_merged_data$predicted_date <- decimal_date(
+#  as.Date(chronumental_date_predicted_merged_data$predicted_date)
+#)
+#chronumental_date_predicted_merged_data$date <- decimal_date(
+#  as.Date(chronumental_date_predicted_merged_data$date)
+#) #Only convert dates to decimal_date values if not already in this format
 
 # Running BRMS (Bayesian Regression Models using Stan) to see which to remove as outliers
 data <- chronumental_date_predicted_merged_data[, c("strain", "date", "predicted_date")]
