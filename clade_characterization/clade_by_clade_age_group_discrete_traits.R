@@ -25,7 +25,7 @@ region_name_mapping <- c(
 )
 sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)])
 IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- read.csv(file = "")
+sequenced_individuals <- readRDS(file = "")
 
 # Region colour mapping:
 region_color_mapping <- data.frame(
@@ -40,15 +40,13 @@ node_region_color_mapping <- data.frame(
 
 # Complete Phylogeny ---------
 current_MAPLE_tree <- ape::read.tree("")
-current_metadata <- read.csv(file = "")
 selected_data <- sequenced_individual_detailed_metadata[, c("strain", "region", "age_at_infection", "REGIONSKODE")]
-merged_data <- merge(current_metadata, selected_data, by = "strain", all.x = TRUE)
 # Filter the tree to keep only tips present in merged_data
 tips_to_keep <- sequenced_individual_detailed_metadata$strain
 current_MAPLE_tree_filtered <- keep.tip(current_MAPLE_tree, tips_to_keep)
 
 # Filter metadata to match IDs in the tree
-filtered_data <- merged_data[merged_data$strain %in% current_MAPLE_tree_filtered$tip.label, ]
+filtered_data <- selected_data[selected_data$strain %in% current_MAPLE_tree_filtered$tip.label, ]
 
 DTA_data <- filtered_data[, c("strain", "region", "age_at_infection", "REGIONSKODE")]
 DTA_data_matched <- DTA_data[match(current_MAPLE_tree_filtered$tip.label, DTA_data$strain), ]
