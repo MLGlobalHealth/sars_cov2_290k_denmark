@@ -29,11 +29,11 @@ def kernel(X, Z, var, length, noise, jitter=1.0e-6, include_noise=True):
 
 # Do GP prediction
 def predict(rng_key, X, Y, X_test, var, length, noise):
-    k_pp = kernel(X_test, X_test, var, length, noise, include_noise=True)
+    
     k_pX = kernel(X_test, X, var, length, noise, include_noise=False)
     k_XX = kernel(X, X, var, length, noise, include_noise=True)
     K_xx_inv = jnp.linalg.inv(k_XX)
-    K = k_pp - jnp.matmul(k_pX, jnp.matmul(K_xx_inv, jnp.transpose(k_pX)))
+    K = - jnp.matmul(k_pX, jnp.matmul(K_xx_inv, jnp.transpose(k_pX)))
     sigma_noise = jnp.sqrt(jnp.clip(jnp.diag(K), a_min=0.0)) * jax.random.normal(
         rng_key, X_test.shape[:1]
     )
