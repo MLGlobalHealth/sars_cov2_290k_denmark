@@ -45,7 +45,7 @@ OSM_distances_hovedstaden <- read.jld2()
 OSM_distances_midtjylland <- read.jld2()
 OSM_distances_nordjylland <- read.jld2()
 OSM_distances_sjælland <- read.jld2()
-OSM_distances_syddanmark <- read.jld2()
+OSM_distances_syddanmark <- read.jld2("data/distance_matrices/distances/route_distances-lSyddanmark-n1000.jld2")
 OSM_distances_copenhagen <- read.jld2()
 OSM_distances_odense <- read.jld2()
 OSM_distances_aarhus <- read.jld2()
@@ -65,11 +65,11 @@ OSM_distances_aarhus_vector <- as.vector(lower_triangular(OSM_distances_aarhus))
 # All of Denmark, 20,000 samples ---------
 # Loading basic data
 time_distance_matrix_parallel <- readRDS(file = "")
-geographic_distance_matrix_parallel <- readRDS(file = "")
-sequenced_individuals <- readRDS(file = "")
+geographic_distance_matrix_parallel <- readRDS(file = "data/geo_distance_matrix_parallel.rds")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
 cophenetic_distances <- readRDS(file = "")
-final_tree <- read.tree("")
-final_distance_tree <- read.tree("")
+final_tree <- read.tree("data/tree/final_tree.tree")
+final_distance_tree <- read.tree("data/tree/final_distance_tree.tree")
 
 cophenetic_distances_vector <- as.vector(lower_triangular(cophenetic_distances)) * 29891
 time_distance_matrix_vector <- abs(as.vector(lower_triangular(time_distance_matrix_parallel))) / 7

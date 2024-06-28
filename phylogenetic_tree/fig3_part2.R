@@ -90,12 +90,6 @@ sequenced_individual_detailed_metadata <- sequenced_individual_detailed_metadata
   filter(date >= BOP_VFRA & date <= BOP_VTIL) %>%
   distinct(PERSON_ID, .keep_all = TRUE)
 
-
-
-
-
-
-
 # Metadata for all individuals with a positive COVID test in the given period
 
 all_positive_individuals <- covid_test %>%
@@ -171,12 +165,6 @@ positive_individual_detailed_metadata <- positive_individual_detailed_metadata %
 positive_individual_detailed_metadata <- positive_individual_detailed_metadata %>%
   mutate(age_at_infection = as.numeric(difftime(PRDATE, BIRTHDAY, units = "days")) / 365.25)
 
-
-
-
-
-
-
 # Characteristics of sequenced vs non-sequenced individuals -------
 
 # Age ----
@@ -242,10 +230,6 @@ sequenced_percentage <- prop.table(sequenced_counts) * 100
 contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
 # Perform chi-square test
 chi_square_result <- chisq.test(contingency_table)
-
-
-
-
 
 
 # Figure with Demographic Breakdown, Part of Figure 3 -------
@@ -317,4 +301,4 @@ demographics_plot <- grid.arrange(major_variant_plot, age_plot, region_plot,
 )
 
 # Save the combined figure with legend
-ggsave("", demographics_plot, width = 4, height = 9)
+# ggsave("", demographics_plot, width = 4, height = 9)
