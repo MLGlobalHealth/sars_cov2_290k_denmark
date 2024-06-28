@@ -62,7 +62,7 @@ function load_data(location)
 
     println("Number of samples: $(size(df, 1))")
 
-    lon, lat = df[!, "longitude"], df[!, "latitude"]
+    lon, lat = df[!, "lon"], df[!, "lat"]
 
     return lon, lat
 end

@@ -347,10 +347,10 @@ po/*~
 # RStudio Connect folder
 rsconnect/
 
-# Other
+# Other temporary files
 drafts.ipynb
 tmp/
 drafts/
 
-# Notebooks (safety to not push sensitive data accidentally)
-*.ipynb
+# Cached maps
+*.pbf.cache

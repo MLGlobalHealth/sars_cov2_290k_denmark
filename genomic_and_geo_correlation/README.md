@@ -1,8 +1,12 @@
 # Figure 6: relationship between geographic and genomic distances alongside mean cophenetic distances within and between households, and mean cophenetic distance over time by region
 
-## OSRM distance matrix extraction
+## Data
 
-### Dependencies (Julia)
+Due to privacy and confidentiality restrictions, we currently cannot provide the true dataset, even de-identified. Thus, we sample "dummy" data to show the code can be executed: 1000 random longitude/latitude coordinates from the Syddanmark region (using Julia's OpenStreetMapX).
+
+## OSRM distance matrix extraction (Julia)
+
+### Dependencies
 
 * ArgParse
 * CSV
@@ -11,6 +15,7 @@
 * HTTP
 * JLD2
 * JSON
+* OpenStreetMapX
 * ProgressMeter
 
 ### Option 1: use Apptainer to run the OSRM API
@@ -39,12 +44,14 @@ osmosis --read-pbf data/maps/denmark-latest.osm.pbf --bb left=8.063203 bottom=54
 osmosis --read-pbf data/maps/denmark-latest.osm.pbf --bb left=10.814805 bottom=54.544406 right=12.645516 top=56.017306 --write-pbf data/maps/sjælland.osm.pbf
 ```
 
+(Coordinates can be obtained from: <https://simplemaps.com/static/svg/country/dk/admin1/dk.json>)
+
 #### Script
 
 ```bash
 export JULIA_NUM_THREADS=16 # change number as desired
 
-julia genomic_and_geo_correlation/build_distance_matrix_v2.jl
+julia build_distance_matrix_v2.jl
 ```
 
 ## Downstream analyses (R)

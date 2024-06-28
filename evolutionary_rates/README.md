@@ -21,8 +21,12 @@ install.packages(
 )
 ```
 
-For synthetic data generation:
+### Data
+
+One can also use the synthpop package to generate synthetic data and run the ```synthesise.R``` script:
 
 ```r
 install.packages(synthpop)
+
+source("synthesise.R")
 ```

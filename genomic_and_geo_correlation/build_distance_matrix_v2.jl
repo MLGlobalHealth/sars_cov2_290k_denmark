@@ -25,7 +25,7 @@ using Random
 ox = OpenStreetMapX
 
 # Paths
-GEO_PATH = "data/synthetic/geo"
+GEO_PATH = "data/geo"
 
 MAP_PATH = "data/maps"
 
@@ -74,23 +74,23 @@ function load_data(location)
     if location in ["Hovedstaden", "Midtjylland", "Nordjylland", "Sjælland", "Syddanmark"]
         map_fname = "$MAP_PATH/$(lowercase(location)).osm.pbf"
     elseif location == "Copenhagen"
-        map_fname = "$MAP_PATH/Hovedstaden.osm.pbf"
+        map_fname = "$MAP_PATH/hovedstaden.osm.pbf"
     elseif location == "Aarhus"
-        map_fname = "$MAP_PATH/Midtjylland.osm.pbf"
+        map_fname = "$MAP_PATH/midtjylland.osm.pbf"
     elseif location == "Odense"
-        map_fname = "$MAP_PATH/Syddanmark.osm.pbf"
+        map_fname = "$MAP_PATH/syddanmark.osm.pbf"
     else
         map_fname = "$MAP_PATH/denmark-latest.osm.pbf"
     end
 
     # Load metadata
-    metadata_fname = "$GEO_PATH/$location.csv"
+    metadata_fname = "$GEO_PATH/$(lowercase(location)).csv"
 
     df = DataFrame(CSV.File(metadata_fname))
 
     println("Number of samples: $(size(df, 1))")
 
-    lon, lat = df[!, "longitude"], df[!, "latitude"]
+    lon, lat = df[!, "lon"], df[!, "lat"]
 
     return df, lon, lat, map_fname
 end

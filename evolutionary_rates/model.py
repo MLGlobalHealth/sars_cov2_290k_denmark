@@ -79,13 +79,14 @@ def regress(
     model = _load_regressor(model_name).from_formula(formula, data=df)
 
     # Fit model
-    if regularized:
-        res = model.fit_regularized().summary()
-    else:
-        res = model.fit().summary()
+    model_fit = model.fit_regularized() if regularized else model.fit()
+
+    res = model_fit.summary2()
 
     # Create param table
-    params = pd.read_html(res.tables[1].as_html(), header=0, index_col=0)[0]
+    params = pd.read_html(
+        model_fit.summary().tables[1].as_html(), header=0, index_col=0
+    )[0]
 
     params.reset_index(names="variable", inplace=True)
 

@@ -33,8 +33,6 @@ Some data is available under the ```data``` folder. Due to confidentiality restr
 
 * ```BEAST_XML_files``` contains the XML files necessary to run BEAST
 * ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
-* ```synthetic``` contains synthetic data generated using the R package ```synthpop```.
-  * ```maple_tip_lengths.csv``` is dataset where each sequence is linked to both demographic (person ID, age, sex, region) and tree statistics (branch length and molecular rate).
 * ```other``` contains other publicly available data:
 
 | Data | Description  |
@@ -44,7 +42,6 @@ Some data is available under the ```data``` folder. Due to confidentiality restr
 ### Genomes
 
 259,106 high-quality SARS-CoV-2 consensus genomes used in this study are available on the GISAID’s EpiCoV database under the EPI-SET accession number EPI_SET_240423qn.
-
 
 ## Software overview
 
