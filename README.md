@@ -33,14 +33,14 @@ Some data is available under the ```data``` folder. Due to confidentiality restr
 
 * ```BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
 * ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
-* ```other``` contains other publicly available data
-
-Other synthetic data is available under the ```data``` folder in each of the main sub-folders. 
-
-
+* ```other``` contains other publicly available data:
 | Data | Description  |
 |------|--------------|
 | pop_stats_2022M01.csv | Danish population per region and age |
+
+
+Synthetic data is available under the ```data``` folder in each of the main sub-folders. 
+
 
 ### Genomes
 
