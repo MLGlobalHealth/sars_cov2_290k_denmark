@@ -33,12 +33,10 @@ Some data is available under the ```data``` folder. Due to confidentiality restr
 
 * ```BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
 * ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
-* ```clade_characterization_dummy_data``` contains synthetic data for the scripts used in the ```clade_characterization``` folder
-* ```evolutionary_rates_dummy_data``` contains synthetic data for the scripts used in the ```evolutionary_rates``` folder
-* ```genomic_and_geo_correlation_dummy_data``` contains synthetic data for the scripts used in the ```genomic_and_geo_correlation``` folder
-* ```growth_rates_dummy_data``` contains synthetic data for the scripts used in the ```growth_rates``` folder
-* ```phylogenetic_tree_dummy_data``` contains synthetic data for the scripts used in the ```phylogenetic_tree``` folder
-* ```other``` contains other publicly available data:
+* ```other``` contains other publicly available data
+
+Other synthetic data is available under the ```data``` folder in each of the main sub-folders. 
+
 
 | Data | Description  |
 |------|--------------|
