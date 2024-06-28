@@ -61,7 +61,7 @@ general_address <- dbReadTable(
 
 
 # All sequenced individuals:
-sequenced_individuals <- read.csv(file = "")
+sequenced_individuals <- readRDS(file = "")
 all_positive_individuals <- COVID_TEST %>%
   filter(
     !is.na(PERSON_ID),
@@ -152,7 +152,7 @@ sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.c
 
 all_positive_individuals <- readRDS(file = "")
 IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- read.csv(file = "")
+sequenced_individuals <- readRDS(file = "")
 
 # Getting map of Denmark ------
 world <- ne_countries(scale = "medium", returnclass = "sf")
