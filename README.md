@@ -29,10 +29,15 @@ Full newick files for each clade and for the whole tree are found in ```phylogen
 
 ## Data
 
-Some data is available under the ```data``` folder. Due to confidentiality restrictions, dummy/synthetic data has been generated from the real data to run the scripts.
+Some data is available under the ```data``` folder. Due to confidentiality restrictions, dummy/synthetic data has been generated; they do not correspond to any real data, but were generated to allow for testing of the code's functionality.
 
-* ```BEAST_XML_files``` contains the XML files necessary to run BEAST
+* ```BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
 * ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
+* ```clade_characterization_dummy_data``` contains synthetic data for the scripts used in the ```clade_characterization``` folder
+* ```evolutionary_rates_dummy_data``` contains synthetic data for the scripts used in the ```evolutionary_rates``` folder
+* ```genomic_and_geo_correlation_dummy_data``` contains synthetic data for the scripts used in the ```genomic_and_geo_correlation``` folder
+* ```growth_rates_dummy_data``` contains synthetic data for the scripts used in the ```growth_rates``` folder
+* ```phylogenetic_tree_dummy_data``` contains synthetic data for the scripts used in the ```phylogenetic_tree``` folder
 * ```other``` contains other publicly available data:
 
 | Data | Description  |
