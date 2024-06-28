@@ -11,9 +11,9 @@ library(
 )
 
 # Data Preparation (Tree and Metadata) ------------------------------
-sequenced_individuals <- readRDS(file = "")
-all_individual <- readRDS(file = "")
-distance_tree <- read.tree("")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
+all_individual <- readRDS(file = "data/all_individual.RDS")
+distance_tree <- read.tree("data/tree/distance_tree.tree")
 
 # Total sample -------------
 unique_dates <- unique(sequenced_individuals$date)
@@ -71,10 +71,10 @@ median_distances <- results[seq(2, length(results), by = 4)]
 ci_lows <- results[seq(3, length(results), by = 4)]
 ci_highs <- results[seq(4, length(results), by = 4)]
 
-saveRDS(mean_distances, file = "")
-saveRDS(median_distances, file = "")
-saveRDS(ci_lows, file = "")
-saveRDS(ci_highs, file = "")
+# saveRDS(mean_distances, file = "")
+# saveRDS(median_distances, file = "")
+# saveRDS(ci_lows, file = "")
+# saveRDS(ci_highs, file = "")
 
 # Create a data frame for results
 total_sample_data <- data.frame(

@@ -12,8 +12,8 @@ library(
 )
 
 # Data Preparation (Tree and Metadata) ------------------------------
-sequenced_individuals <- readRDS(file = "")
-distance_tree <- read.tree("")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
+distance_tree <- read.tree("data/tree/distance_tree.tree")
 
 # Change tip labels to PERSON_ID values
 strain_person_id_mapping <- setNames(sequenced_individuals$PERSON_ID, sequenced_individuals$strain)

@@ -12,9 +12,9 @@ library(
 
 
 # Loading basic data -----
-sequenced_individuals <- readRDS(file = "")
-final_tree <- read.tree("")
-final_distance_tree <- read.tree("")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
+final_tree <- read.tree("data/tree/final_tree.tree")
+final_distance_tree <- read.tree("data/tree/final_distance_tree.tree")
 
 # Filter sequenced_individuals dataframe by zone (urban or land/countryside) -----
 byzone_data <- sequenced_individuals[sequenced_individuals$ZONE == "Byzone", ]
@@ -74,10 +74,10 @@ time_distance_matrix_byzone <- foreach(i = seq_len(nrow(sampled_data_reordered))
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered, file = "")
-saveRDS(cophenetic_distances_byzone, file = "")
-saveRDS(geographic_distance_matrix_byzone, file = "")
-saveRDS(time_distance_matrix_byzone, file = "")
+# saveRDS(sampled_data_reordered, file = "")
+# saveRDS(cophenetic_distances_byzone, file = "")
+# saveRDS(geographic_distance_matrix_byzone, file = "")
+# saveRDS(time_distance_matrix_byzone, file = "")
 
 
 
@@ -124,17 +124,17 @@ time_distance_matrix_landzone <- foreach(i = seq_len(nrow(sampled_data_reordered
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered_landzone, file = "")
-saveRDS(cophenetic_distances_landzone, file = "")
-saveRDS(geographic_distance_matrix_landzone, file = "")
-saveRDS(time_distance_matrix_landzone, file = "")
+# saveRDS(sampled_data_reordered_landzone, file = "")
+# saveRDS(cophenetic_distances_landzone, file = "")
+# saveRDS(geographic_distance_matrix_landzone, file = "")
+# saveRDS(time_distance_matrix_landzone, file = "")
 
 
 
 
 
 # Postcode data for major cities ------
-postcodes <- read.csv(file = "")
+postcodes <- read.csv(file = "data/postcodes.csv")
 copenhagen_area <- subset(postcodes, grepl("^København|^Frederiksberg", Commune))
 copenhagen_postcodes <- unique(copenhagen_area$Postcode)
 
@@ -152,7 +152,7 @@ aarhus <- data.frame(city = "Aarhus", postcode = paste(aarhus_postcodes, collaps
 odense <- data.frame(city = "Odense", postcode = paste(odense_postcodes, collapse = ", "))
 # Combining data frames
 cities <- rbind(copenhagen, aarhus, odense)
-write.csv(cities, file = "", row.names = FALSE)
+# write.csv(cities, file = "", row.names = FALSE)
 
 
 
@@ -204,7 +204,7 @@ time_distance_matrix_copenhagen <- foreach(
 }
 stopCluster(cl)
 
-saveRDS(sampled_data_reordered_copenhagen, file = "")
-saveRDS(cophenetic_distances_copenhagen, file = "")
-saveRDS(geographic_distance_matrix_copenhagen, file = "")
-saveRDS(time_distance_matrix_copenhagen, file = "")
+# saveRDS(sampled_data_reordered_copenhagen, file = "")
+# saveRDS(cophenetic_distances_copenhagen, file = "")
+# saveRDS(geographic_distance_matrix_copenhagen, file = "")
+# saveRDS(time_distance_matrix_copenhagen, file = "")

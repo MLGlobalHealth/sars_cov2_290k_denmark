@@ -11,12 +11,15 @@ library(
 )
 
 # Loading basic data -----
-sequenced_individuals <- readRDS(file = "")
-final_tree <- read.tree("")
-final_distance_tree <- read.tree("")
-geo_distance_matrix_parallel <- readRDS(file="") # Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
-time_distance_matrix_parallel <- readRDS(file="") # Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
-cophenetic_distances <- readRDS(file="") # Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
+final_tree <- read.tree("data/tree/final_tree.tree")
+final_distance_tree <- read.tree("data/tree/final_distance_tree.tree")
+# Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
+geo_distance_matrix_parallel <- readRDS(file = "data/geo_distance_matrix_parallel.rds")
+# Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
+time_distance_matrix_parallel <- readRDS(file = "")
+# Note that the data for this is too large to be shared online; can be calculated using the other scripts in the folder
+cophenetic_distances <- readRDS(file = "")
 
 rownames(geo_distance_matrix_parallel) <- colnames(geo_distance_matrix_parallel) <- sequenced_individuals$PERSON_ID
 
@@ -24,7 +27,7 @@ rownames(time_distance_matrix_parallel) <- colnames(time_distance_matrix_paralle
 
 rownames(cophenetic_distances) <- colnames(cophenetic_distances) <- sequenced_individuals$PERSON_ID
 
-metadata_sequenced_individuals <- readRDS(file = "")
+metadata_sequenced_individuals <- readRDS(file = "data/metadata_sequenced_invididuals.RDS")
 
 
 # Correlation geo distance and phylogenetic distance using castor instead -----
@@ -74,7 +77,7 @@ diffusion_results_sf <- castor::fit_sbm_geobiased_const(pruned_time_tree,
   Nbootstraps = 1000,
   rarefaction = sampling_fraction
 )
-saveRDS(
-  diffusion_results_sf,
-  file = paste0("diffusion_results_sf_", sampling_fraction, ".RDS", sep = ""),
-)
+# saveRDS(
+#   diffusion_results_sf,
+#   file = paste0("diffusion_results_sf_", sampling_fraction, ".RDS", sep = ""),
+# )

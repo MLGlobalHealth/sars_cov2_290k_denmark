@@ -13,10 +13,10 @@ library(
 
 
 # Loading basic data -----
-sequenced_individuals <- readRDS(file = "")
-all_individual <- read.csv(file = "")
-final_tree <- read.tree("")
-final_distance_tree <- read.tree("")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
+all_individual <- readRDS(file = "data/all_individual.RDS")
+final_tree <- read.tree("data/tree/final_tree.tree")
+final_distance_tree <- read.tree("data/tree/final_distance_tree.tree")
 
 
 # Parallelized method, 3 people in a household ----------
@@ -99,5 +99,5 @@ for (i in 1:n) {
 }
 
 # Save distance matrices
-saveRDS(distance_matrix_average_three_people, file = "")
-saveRDS(distance_matrix_time_three_people, file = "")
+# saveRDS(distance_matrix_average_three_people, file = "")
+# saveRDS(distance_matrix_time_three_people, file = "")
