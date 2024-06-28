@@ -27,19 +27,17 @@ To reproduce certain figures individually, consult the README files in each corr
 
 Full newick files for each clade and for the whole tree are found in ```phylogenetic_newick_trees```
 
-## Data
+## General Data
 
 Some data is available under the ```data``` folder. Due to confidentiality restrictions, dummy/synthetic data has been generated; they do not correspond to any real data, but were generated to allow for testing of the code's functionality.
 
 * ```BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
 * ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
-* ```other``` contains other publicly available data:
-| Data | Description  |
-|------|--------------|
-| pop_stats_2022M01.csv | Danish population per region and age |
+* ```other``` contains other publicly available data
 
+## Script-Specific Data
 
-Synthetic data is available under the ```data``` folder in each of the main sub-folders. 
+Synthetic data is available under the ```data``` folder in each of the main sub-folders. Due to confidentiality restrictions, dummy/synthetic data to test the code has been generated instead.
 
 
 ### Genomes
