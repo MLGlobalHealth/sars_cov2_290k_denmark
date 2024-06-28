@@ -15,7 +15,7 @@ cividis_palette <- viridisLite::cividis
 
 
 # Load metadata -----
-sequenced_individual_detailed_metadata <- readRDS(file = "")
+sequenced_individual_detailed_metadata <- readRDS(file = "data/sequenced_individual_detailed_metadata.RDS")
 region_name_mapping <- c(
   "1081" = "Nordjylland",
   "1082" = "Midtjylland",
@@ -24,8 +24,8 @@ region_name_mapping <- c(
   "1085" = "Sjælland"
 )
 sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)])
-IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- readRDS(file = "")
+IAR_denmark_data <- read.csv(file = "data/IAR_denmark_data.csv")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
 
 # Region colour mapping:
 region_color_mapping <- data.frame(
@@ -39,7 +39,7 @@ node_region_color_mapping <- data.frame(
 )
 
 # Complete Phylogeny ---------
-current_MAPLE_tree <- ape::read.tree("")
+current_MAPLE_tree <- ape::read.tree("tree/urrent_MAPLE_tree.tree")
 selected_data <- sequenced_individual_detailed_metadata[, c("strain", "region", "age_at_infection", "REGIONSKODE")]
 # Filter the tree to keep only tips present in merged_data
 tips_to_keep <- sequenced_individual_detailed_metadata$strain
@@ -145,7 +145,7 @@ full_tree_heatmap_normalized <- as.ggplot(pheatmap(transition_matrix_age,
 
 
 combined_plot <- ggarrange(full_tree_heatmap_text, full_tree_heatmap_normalized, ncol = 2)
-ggsave("", combined_plot, width = 12, height = 6)
+ggsave("img/fig4_combined_trees_and_DTA_heatmaps.pdf", combined_plot, width = 12, height = 6)
 
 # Proportion test comparing diagonal vs. off-diagonal values --------
 within_same_age <- diag(transition_matrix_age)

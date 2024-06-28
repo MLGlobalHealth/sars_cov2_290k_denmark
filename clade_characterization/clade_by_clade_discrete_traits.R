@@ -16,7 +16,7 @@ cividis_palette <- viridisLite::cividis
 
 
 # Load metadata -----
-sequenced_individual_detailed_metadata <- readRDS(file = "")
+sequenced_individual_detailed_metadata <- readRDS(file = "data/sequenced_individual_detailed_metadata.RDS")
 region_name_mapping <- c(
   "1081" = "N",
   "1082" = "M",
@@ -27,8 +27,8 @@ region_name_mapping <- c(
 sequenced_individual_detailed_metadata$region <- factor(
   region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)]
 )
-IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- readRDS(file = "")
+IAR_denmark_data <- read.csv(file = "data/IAR_denmark_data.csv")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
 
 # Region colour mapping:
 region_color_mapping <- data.frame(
@@ -162,7 +162,7 @@ tree_heatmap_normalized <- as.ggplot(pheatmap(transition_matrix_region,
 
 
 # Complete Phylogeny/Tree ---------
-current_MAPLE_tree <- ape::read.tree("")
+current_MAPLE_tree <- ape::read.tree("data/tree/current_MAPLE_tree.tree")
 current_metadata <- read.csv(file = "")
 selected_data <- sequenced_individual_detailed_metadata[, c("strain", "region", "age_at_infection", "REGIONSKODE")]
 merged_data <- merge(current_metadata, selected_data, by = "strain", all.x = TRUE)
@@ -243,10 +243,12 @@ total_within_same_region <- sum(within_same_region)
 total_between_region <- total_transmissions - total_within_same_region
 proportion_within_same_region <- total_within_same_region / total_transmissions
 proportion_between_region <- total_between_region / total_transmissions
-test_result <- prop.test(x = c(total_within_same_region, total_between_region),
-                         n = c(total_transmissions, total_transmissions),
-                         alternative = "two.sided",
-                         correct = FALSE)
+test_result <- prop.test(
+  x = c(total_within_same_region, total_between_region),
+  n = c(total_transmissions, total_transmissions),
+  alternative = "two.sided",
+  correct = FALSE
+)
 print(test_result)
 
 
@@ -318,7 +320,7 @@ legend <- cowplot::get_legend(legend_tree)
 
 # Combine all the trees with the legend --------
 combined_DTA_trees_with_legend <- grid.arrange(, legend, ncol = 4)
-ggsave("", combined_DTA_trees_with_legend, width = 15, height = 20)
+# ggsave("", combined_DTA_trees_with_legend, width = 15, height = 20)
 
 
 # Heatmap Grid, z-scored --------
@@ -326,14 +328,14 @@ heatmap_grid_z_Score <- grid.arrange(, NULL,
   full_tree_heatmap_normalized,
   ncol = 3
 )
-ggsave("", heatmap_grid_z_Score, width = 15, height = 20)
+# ggsave("", heatmap_grid_z_Score, width = 15, height = 20)
 
 # Heatmap Grid, colours and numbers --------
 heatmap_grid <- grid.arrange(, full_tree_heatmap,
   legend,
   ncol = 4
 )
-ggsave("", tree_and_heatmap_grid, width = 15, height = 20)
+# ggsave("", tree_and_heatmap_grid, width = 15, height = 20)
 
 
 # Heatmap with Numbers and Trees Grid --------
@@ -341,12 +343,12 @@ tree_numbers_and_heatmap_grid <- grid.arrange(full_tree_heatmap_text,
   legend,
   ncol = 4
 )
-ggsave("", tree_numbers_and_heatmap_grid, width = 15, height = 20)
+# ggsave("", tree_numbers_and_heatmap_grid, width = 15, height = 20)
 
 
 # Heatmap with Numbers and Trees Grid --------
 tree_z_score_heatmap_grid <- grid.arrange(, legend, ncol = 4)
-ggsave("", tree_z_score_heatmap_grid, width = 15, height = 20)
+# ggsave("", tree_z_score_heatmap_grid, width = 15, height = 20)
 
 
 # Final Heatmap with Fewer Trees --------
@@ -355,4 +357,4 @@ final_tree_z_score_heatmap_grid <- grid.arrange(,
   legend_plot,
   ncol = 4
 )
-ggsave("", final_tree_z_score_heatmap_grid, width = 15, height = 20)
+# ggsave("", final_tree_z_score_heatmap_grid, width = 15, height = 20)

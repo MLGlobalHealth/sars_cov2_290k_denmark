@@ -61,7 +61,7 @@ general_address <- dbReadTable(
 
 
 # All sequenced individuals:
-sequenced_individuals <- readRDS(file = "")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.csv")
 all_positive_individuals <- COVID_TEST %>%
   filter(
     !is.na(PERSON_ID),
@@ -139,7 +139,7 @@ sequenced_individual_detailed_metadata$Fully_vaccinated_at_exposure <- as.intege
 
 
 # Load metadata -----
-sequenced_individual_detailed_metadata <- readRDS(file = "")
+sequenced_individual_detailed_metadata <- readRDS(file = "data/sequenced_individual_detailed_metadata.RDS")
 region_name_mapping <- c(
   "1081" = "Region Nordjylland",
   "1082" = "Region Midtjylland",
@@ -150,9 +150,9 @@ region_name_mapping <- c(
 sequenced_individual_detailed_metadata$region <- factor(region_name_mapping[as.character(sequenced_individual_detailed_metadata$REGIONSKODE)])
 
 
-all_positive_individuals <- readRDS(file = "")
-IAR_denmark_data <- read.csv(file = "")
-sequenced_individuals <- readRDS(file = "")
+all_positive_individuals <- readRDS(file = "data/all_positive_individuals.rds")
+IAR_denmark_data <- read.csv(file = "data/IAR_denmark_data.csv")
+sequenced_individuals <- readRDS(file = "data/sequenced_individuals.RDS")
 
 # Getting map of Denmark ------
 world <- ne_countries(scale = "medium", returnclass = "sf")
@@ -210,8 +210,6 @@ create_variant_map <- function(variant_name, tree, data, xlim, ylim, region_colo
     region = c("Region Hovedstaden", "Region Midtjylland", "Region Nordjylland", "Region Sjælland", "Region Syddanmark"),
     color = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
   )
-
-
   # Match labels and indices
   matching_labels <- intersect(tree$tip.label, data$strain)
   matching_indices <- match(matching_labels, tree$tip.label)
@@ -226,7 +224,15 @@ create_variant_map <- function(variant_name, tree, data, xlim, ylim, region_colo
   tip_metadata$label <- NULL
 
   # Generate phylo.to.map object
-  danish_obj <- phylo.to.map(tree, tip_metadata, database = "worldHires", regions = "Denmark", xlim = xlim, ylim = ylim, plot = FALSE)
+  danish_obj <- phylo.to.map(
+    tree,
+    tip_metadata,
+    database = "worldHires",
+    regions = "Denmark",
+    xlim = xlim,
+    ylim = ylim,
+    plot = FALSE
+  )
 
   # Use the specified color mapping for regions
   cols <- setNames(region_color_mapping$color[match(tip_metadata$region, region_color_mapping$region)], tree$tip.label)
@@ -271,26 +277,19 @@ create_point_map <- function(data, xlim, ylim, region_color_mapping) {
 }
 
 
-
-
-
 # Region colour mapping ---------
 region_color_mapping <- data.frame(
   region = c("Region Hovedstaden", "Region Midtjylland", "Region Nordjylland", "Region Sjælland", "Region Syddanmark"),
   color = c("#440154FF", "#3B528BFF", "#21908CFF", "#5DC863FF", "#FDE725FF")
 )
 
-
-
-
-
 # Reading in trees for each clade ------
 
 # Code for each clade, repeated for each clade --------
-current_BEAST_tree <- ape::read.nexus()
+current_BEAST_tree <- ape::read.nexus("")
 current_BEAST_tree <- collapse_negative_lengths(current_BEAST_tree)
 current_BEAST_tree$tip.label <- sapply(current_BEAST_tree$tip.label, remove_after_last_underscore)
-current_MAPLE_tree <- ape::read.tree("")
+current_MAPLE_tree <- ape::read.tree("data/tree/current_MAPLE_tree.tree")
 current_metadata <- read.csv("")
 print(min(current_metadata$DateSamplingLinelist))
 print(max(current_metadata$DateSamplingLinelist))
@@ -343,10 +342,6 @@ new_tip_order <- pruned_tree$tip.label
 tip_latitudes <- filtered_data$latitude[match(new_tip_order, filtered_data$strain)]
 tip_longitudes <- filtered_data$longitude[match(new_tip_order, filtered_data$strain)]
 
-
-
-
-
 # Combined Tree Figure ---------
 
 # Extract legend from one of the figures
@@ -361,10 +356,8 @@ legend <- cowplot::get_legend(legend_plot)
 combined_trees_with_legend <- grid.arrange(trees, legend, ncol = 4)
 combined_trees_and_maps_with_legend <- grid.arrange(trees, legend, ncol = 4)
 
-
-
 # Complete Phylogeny ---------
-current_MAPLE_tree <- ape::read.tree("")
+current_MAPLE_tree <- ape::read.tree("data/tree/current_MAPLE_tree.tree")
 current_metadata <- read.csv(file = "")
 
 # Visualizing tree by region
