@@ -3,18 +3,12 @@
 # Author: Mark Khurana (mark.khurana@sund.ku.dk)
 
 # Reading relevant packages ----------
-library(
-  ape, phytools, TreeTools, dplyr, tidyverse, data.table,
-  dbplyr, lubridate, rlang, foreach, doParallel, parallel,
-  ggsignif, caper, picante, mgcv, patchwork, coefplot, ggpubr,
-  stargazer, lme4
-)
-
+library(ape)
 
 # Reading in data
-sequenced_individual_detailed_metadata <- readRDS(file = "")
-distance_tree <- read.tree("")
-time_tree <- read.tree("")
+sequenced_individual_detailed_metadata <- readRDS("data/sequenced_individual_detailed_metadata.RDS")
+distance_tree <- read.tree("data/tree/distance_tree.tree")
+time_tree <- read.tree("data/tree/time_tree.tree")
 
 # Checking relationship between age and branch lengths -------
 # Extract tip labels from distance tree
@@ -102,4 +96,4 @@ edge_lengths_time <- edge_lengths_time[match(analysis_data$PERSON_ID, names(edge
 # Now, add the branch lengths to the analysis_data dataframe
 analysis_data$branch_lengths_time <- edge_lengths_time
 analysis_data$rate <- (analysis_data$branch_lengths) / (analysis_data$branch_lengths_time)
-write.csv(analysis_data, file = "")
+write.csv(analysis_data, file = "data/sequenced_individual_detailed_metadata.csv")

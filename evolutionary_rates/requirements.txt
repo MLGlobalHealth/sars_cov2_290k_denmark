@@ -3,3 +3,4 @@ pandas
 seaborn==0.13.2
 matplotlib
 numpy
+pyreadr

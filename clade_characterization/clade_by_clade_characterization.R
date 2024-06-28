@@ -286,7 +286,8 @@ region_color_mapping <- data.frame(
 # Reading in trees for each clade ------
 
 # Code for each clade, repeated for each clade --------
-current_BEAST_tree <- ape::read.nexus("")
+# Example here for Alpha
+current_BEAST_tree <- ape::read.nexus("data/phylogenetic_newick_trees/clade_specific/Alpha_B.1.1_n_30.nwk")
 current_BEAST_tree <- collapse_negative_lengths(current_BEAST_tree)
 current_BEAST_tree$tip.label <- sapply(current_BEAST_tree$tip.label, remove_after_last_underscore)
 current_MAPLE_tree <- ape::read.tree("data/tree/current_MAPLE_tree.tree")

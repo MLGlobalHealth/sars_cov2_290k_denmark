@@ -2,13 +2,10 @@
 
 # Author: Neil Scheidwasser (neil.clow@sund.ku.dk)
 
-import calendar
-import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-from utils.config import VARIANT_PALETTE
-from utils.plot import clear_axes, set_size
+from utils.plot import clear_axes
 
 
 def _get_name_and_label(x, nnz):
@@ -67,72 +64,6 @@ def pointplot(
     clear_axes()
 
     return ax
-
-
-# def month_plot(df, y, nnz=False):
-#     """Point plot between-month differences in y
-
-#     Parameters
-#     ----------
-#     df : pandas.DataFrame
-#         Data
-#     y : str
-#         regressand
-#     nnz : bool, optional
-#         If True, only keep non-zero values, by default False
-#     """
-#     _, ax = plt.subplots(figsize=set_size(240, "h"))
-
-#     sns.pointplot(
-#         x="month",
-#         y=y,
-#         data=df.query(f"{y} > 0") if nnz else df,
-#         order=calendar.month_abbr[1:],
-#         n_boot=100,
-#         color="k",
-#         linestyles="none",
-#         ax=ax,
-#     )
-
-#     yname, ylabel = _get_name_and_label(y, nnz)
-
-#     if y == "rate":
-#         ax.ticklabel_format(style="sci", axis="y", scilimits=(0, 0), useOffset=False)
-
-#     ax.set_xlabel("")
-#     ax.set_ylabel(rf"{ylabel} \n (mean +/- 95\% CI)")
-#     clear_axes()
-
-#     ax.tick_params(axis="x", rotation=45)
-#     ymin, ymax = 0, 8
-#     alpha = 0.25
-
-#     spans = [
-#         (0, 1, "Wild type"),
-#         (1, 5.5, "Alpha"),
-#         (5.5, 10.5, "Delta"),
-#         (10.5, 11, "Omicron"),
-#     ]
-
-#     for span in spans:
-#         xmin, xmax, key = span
-
-#         ax.axvspan(
-#             xmin=xmin,
-#             xmax=xmax,
-#             ymin=ymin,
-#             ymax=ymax,
-#             alpha=alpha,
-#             color=VARIANT_PALETTE[key],
-#             label=key,
-#         )
-
-#     ax.legend(loc="center", bbox_to_anchor=(0.5, 1.21), ncol=2)
-
-#     plt.savefig(
-#         f"img/{yname}_vs_month.pdf", format="pdf", bbox_inches="tight", pad_inches=0.1
-#     )
-#     plt.show()
 
 
 def reg_coef_plot(params, group, ref, x="var_group", y="coef", ax=None, **kwargs):

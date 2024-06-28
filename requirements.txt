@@ -3,6 +3,7 @@ matplotlib
 numpy
 numpyro
 pandas
+pyreadr
 scienceplots
 scipy
 seaborn

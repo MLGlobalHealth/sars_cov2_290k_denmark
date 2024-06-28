@@ -41,6 +41,7 @@ def parse_args():
         "-i",
         "--input",
         type=str,
+        default="data/sequenced_individual_detailed_metadata.csv",
         help="Input file (.csv)",
     )
     return parser.parse_args()

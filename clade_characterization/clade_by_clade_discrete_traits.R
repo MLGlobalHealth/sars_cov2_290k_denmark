@@ -48,8 +48,8 @@ valid_names <- c("H", "M", "N", "SJ", "SY")
 
 # Reading in trees for each clade ------
 
-# Sample code for each clade; done for each clade --------
-current_BEAST_tree <- ape::read.tree("")
+# Example here for Alpha
+current_BEAST_tree <- ape::read.nexus("data/phylogenetic_newick_trees/clade_specific/Alpha_B.1.1_n_30.nwk")
 current_metadata <- read.csv("")
 merged_data <- merge(current_metadata, sequenced_individual_detailed_metadata, by = "PERSON_ID", all.x = TRUE, suffixes = c(".current", ".detailed"))
 filtered_data <- merged_data[merged_data$strain.current %in% current_BEAST_tree$tip.label, ]
