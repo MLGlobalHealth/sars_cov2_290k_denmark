@@ -31,9 +31,9 @@ Full newick files for each clade and for the whole tree are found in ```phylogen
 
 Some data is available under the ```data``` folder. Due to confidentiality restrictions, dummy/synthetic data has been generated; they do not correspond to any real data, but were generated to allow for testing of the code's functionality.
 
-* ```BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
-* ```phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
-* ```other``` contains other publicly available data
+* ```data/BEAST_XML_files``` contains the XML files necessary to run BEAST; for confidentiality reasons, the XML files do not include taxon or sequence data
+* ```clade_characterization/data/phylogenetic_newick_trees``` contains phylogenetic trees (in Newick format) where the sequence IDs are anonymized
+* ```data/other``` contains other publicly available data
 
 ## Script-Specific Data
 
