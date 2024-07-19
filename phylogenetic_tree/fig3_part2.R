@@ -176,7 +176,7 @@ age_groups <- cut(positive_individual_basic_metadata$age_at_infection,
   include.lowest = TRUE
 )
 positive_df <- data.frame(age_groups)
-table_positive <- table(positive_df$age_groups)
+table_positive <- c(table(positive_df$age_groups))
 percentage_positive <- prop.table(table_positive) * 100
 print(table_positive)
 print(percentage_positive)
@@ -189,13 +189,13 @@ age_groups_sequenced <- cut(all_sequenced_individuals_combined_unique$age_at_inf
   include.lowest = TRUE
 )
 sequenced_df <- data.frame(age_groups_sequenced)
-table_sequenced <- table(sequenced_df$age_groups_sequenced)
+table_sequenced <- c(table(sequenced_df$age_groups_sequenced))
 percentage_sequenced <- prop.table(table_sequenced) * 100
 # Display table for sequenced_individuals
 print(table_sequenced)
 print(percentage_sequenced)
 # Perform statistical test
-chi_square_result <- chisq.test(table_positive, table_sequenced)
+chi_square_result <- prop.test(table_sequenced, table_positive)
 print(chi_square_result)
 
 
@@ -207,11 +207,11 @@ all_sequenced_individuals_combined_unique$KOEN <- as.factor(
 
 summary(positive_individual_basic_metadata$KOEN)
 summary(all_sequenced_individuals_combined_unique$KOEN)
-positive_counts <- table(positive_individual_basic_metadata$KOEN)
-sequenced_counts <- table(all_sequenced_individuals_combined_unique$KOEN)
+positive_counts <- c(table(positive_individual_basic_metadata$KOEN))
+sequenced_counts <- c(table(all_sequenced_individuals_combined_unique$KOEN))
 prop.table(positive_counts) * 100
 prop.table(sequenced_counts) * 100
-prop_test_result <- prop.test(positive_counts, sequenced_counts)
+prop_test_result <- prop.test(sequenced_counts, positive_counts)
 print(prop_test_result)
 
 
@@ -223,13 +223,13 @@ sequenced_individual_detailed_metadata$REGIONSKODE <- as.factor(
   sequenced_individual_detailed_metadata$REGIONSKODE
 )
 # Breaking down by region:
-positive_counts <- table(positive_individual_detailed_metadata$REGIONSKODE)
-sequenced_counts <- table(sequenced_individual_detailed_metadata$REGIONSKODE)
+positive_counts <- c(table(positive_individual_detailed_metadata$REGIONSKODE))
+sequenced_counts <- c(table(sequenced_individual_detailed_metadata$REGIONSKODE))
 positive_percentage <- prop.table(positive_counts) * 100
 sequenced_percentage <- prop.table(sequenced_counts) * 100
-contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
+# contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
 # Perform chi-square test
-chi_square_result <- chisq.test(contingency_table)
+chi_square_result <- prop.test(sequenced_counts, positive_counts)
 
 
 # Figure with Demographic Breakdown, Part of Figure 3 -------
