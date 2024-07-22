@@ -227,7 +227,7 @@ positive_counts <- c(table(positive_individual_detailed_metadata$REGIONSKODE))
 sequenced_counts <- c(table(sequenced_individual_detailed_metadata$REGIONSKODE))
 positive_percentage <- prop.table(positive_counts) * 100
 sequenced_percentage <- prop.table(sequenced_counts) * 100
-# contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
+contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
 # Perform chi-square test
 chi_square_result <- chisq.test(contingency_table)
 
