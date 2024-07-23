@@ -195,7 +195,7 @@ percentage_sequenced <- prop.table(table_sequenced) * 100
 print(table_sequenced)
 print(percentage_sequenced)
 # Perform statistical test
-data_matrix <- rbind(table_sequenced, table_positive)
+data_matrix <- rbind(table_positive-table_sequenced, table_sequenced)
 chi_square_result <- chisq.test(data_matrix)
 
 
@@ -211,7 +211,7 @@ positive_counts <- c(table(positive_individual_basic_metadata$KOEN))
 sequenced_counts <- c(table(all_sequenced_individuals_combined_unique$KOEN))
 prop.table(positive_counts) * 100
 prop.table(sequenced_counts) * 100
-data_matrix <- rbind(sequenced_counts, positive_counts)
+data_matrix <- rbind(table_positive-table_sequenced, table_sequenced)
 chi_square_result <- chisq.test(data_matrix)
 
 
@@ -227,9 +227,8 @@ positive_counts <- c(table(positive_individual_detailed_metadata$REGIONSKODE))
 sequenced_counts <- c(table(sequenced_individual_detailed_metadata$REGIONSKODE))
 positive_percentage <- prop.table(positive_counts) * 100
 sequenced_percentage <- prop.table(sequenced_counts) * 100
-contingency_table <- matrix(c(positive_counts, sequenced_counts), ncol = 2)
-# Perform chi-square test
-chi_square_result <- chisq.test(contingency_table)
+data_matrix <- rbind(positive_counts-sequenced_counts, sequenced_counts)
+chi_square_result <- chisq.test(data_matrix)
 
 
 # Figure with Demographic Breakdown, Part of Figure 3 -------
