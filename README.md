@@ -1,6 +1,8 @@
 # High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark
 
-Code for "High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark" (under review)
+Code for "High-Resolution Epidemiological Landscape from 290K SARS-CoV-2 Genomes from Denmark"
+
+Link to paper: <https://doi.org/10.1038/s41467-024-51371-0>
 
 ## Overview
 
@@ -57,3 +59,20 @@ R (4.2.3), Python (3.10.10), Julia, BEAST (1.10.4) for clade-specific phylogenet
 ## License
 
 Apache 2.0 License
+
+## Citation
+
+Please cite the paper as:
+
+```tex
+@article{khurana2024high,
+  title={High-resolution epidemiological landscape from\~{} 290,000 SARS-CoV-2 genomes from Denmark},
+  author={Khurana, Mark P and Curran-Sebastian, Jacob and Scheidwasser, Neil and Morgenstern, Christian and Rasmussen, Morten and Fonager, Jannik and Stegger, Marc and Tang, Man-Hung Eric and Juul, Jonas L and Escobar-Herrera, Leandro Andr{\'e}s and others},
+  journal={Nature Communications},
+  volume={15},
+  number={1},
+  pages={7123},
+  year={2024},
+  publisher={Nature Publishing Group UK London}
+}
+```
